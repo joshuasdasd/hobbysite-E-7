@@ -1,0 +1,11 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <h1><span style="background-color: #E6E6FA">⋆˚࿔  {{ object.title }}  𝜗𝜚˚⋆</span></h1>
+    <p>✤ Category: {{ object.category }}</p>
+    <p>✤ Created on: {{ object.created_on }}</p>
+    <p><i>✤ Entry:</i></p>
+    <p>{{ object.entry }}</p>
+    <p>* Last updated: {{ object.updated_on }}</p>
+<a href="/blog/articles/">< Back</a>
+{% endblock %}
