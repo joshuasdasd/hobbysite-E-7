@@ -10,6 +10,9 @@ class ArticleCategory(models.Model):
     class Meta:
         ordering = ['name']
 
+    def __str__(self):
+        return self.name
+
 class Article(models.Model):
     title = models.CharField(max_length=255)
     category = models.ForeignKey(
@@ -26,3 +29,6 @@ class Article(models.Model):
 
     class Meta:
         ordering = ['-created_on']
+
+    def __str__(self):
+        return self.title
