@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Commission List</title>
+</head>
+<body>
+    <h1>Commission List</h1>
+    <ul>
+        {% for commission in commissions %}
+            <li>
+                <a href="{% url 'commissions:commission_detail' commission.pk %}">{{ commission.title }}</a>
+                <p>Description: {{ commission.description }}</p>
+                <p>People Required: {{ commission.people_required }}</p>
+                <p>Created On: {{ commission.created_on }}</p>
+                <p>Updated On: {{ commission.updated_on }}</p>
+            </li>
+        {% empty %}
+            <li>No commissions available.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

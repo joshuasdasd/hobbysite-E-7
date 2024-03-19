@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Commission Detail</title>
+</head>
+<body>
+    <h1>Commission Detail</h1>
+    <h2>{{ commission.title }}</h2>
+    <p>Description: {{ commission.description }}</p>
+    <p>People Required: {{ commission.people_required }}</p>
+    <p>Created On: {{ commission.created_on }}</p>
+    <p>Updated On: {{ commission.updated_on }}</p>
+
+    <h2>Comments</h2>
+    <ul>
+        {% for comment in commission.comment_set.all %}
+            <li>
+                <p>{{ comment.entry }}</p>
+                <p>Created On: {{ comment.created_on }}</p>
+                <p>Updated On: {{ comment.updated_on }}</p>
+            </li>
+        {% empty %}
+            <li>No comments available.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
