@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.urls import reverse
 
 # Create your models here.
 
@@ -9,6 +10,8 @@ class ArticleCategory(models.Model):
 
     class Meta:
         ordering = ['name']
+        verbose_name = 'Category'  
+        verbose_name_plural = 'Categories'
 
     def __str__(self):
         return self.name
@@ -21,10 +24,7 @@ class Article(models.Model):
         null=True,
     )
     entry = models.TextField()
-    created_on = models.DateTimeField(
-        default=timezone.now, 
-        editable=False,
-    )
+    created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -32,3 +32,6 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse('wiki:article_detail', args=[self.pk])
