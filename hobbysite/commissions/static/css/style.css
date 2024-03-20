@@ -13,19 +13,15 @@ body {
 }
 h1 {
     width: 100%;
-    padding: 12px;
+    margin-bottom: 12px;
 }
 
 .commission {
     padding: 2vw;
-    background-color:lightpink;
+    background-color:powderblue;
     border-radius: 8px;
     margin-bottom: 12px;
     list-style: none;
-}
-
-.commission:hover {
-    background-color: lightpink;
 }
 
 .commission-name {
