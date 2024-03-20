@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Commission List</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Commission List</h1>
+    <ul class="commissions-section">
+        {% for commission in commissions %}
+            <li class="commission">
+                <a class="commission-name" href="{% url 'commissions:commission_detail' commission.pk %}">{{ commission.title }}</a>
+
+                <div class="commission-details">
+                    <p><span class="commission-label">Description: </span>{{ commission.description }}</p>
+                    <p><span class="commission-label">People Required: </span>{{ commission.people_required }}</p>
+                </div>
+
+                <div class="commission-stats">
+                    <p><span class="commission-label stat">Updated On: </span>{{ commission.updated_on }}</p>
+                    <p><span class="commission-label stat">Created On: </span>{{ commission.created_on }}</p>
+                </div>
+            </li>
+        {% empty %}
+            <li class="no-comment">No commissions available.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

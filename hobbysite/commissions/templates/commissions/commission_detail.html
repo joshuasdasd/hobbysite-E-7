@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Commission Detail</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Commission Detail</h1>
+
+    <div class="commission">
+        <a class="commission-name" href="{% url 'commissions:commission_detail' commission.pk %}">{{ commission.title }}</a>
+    
+        <div class="commission-details">
+            <p><span class="commission-label">Description: </span>{{ commission.description }}</p>
+            <p><span class="commission-label">People Required: </span>{{ commission.people_required }}</p>
+        </div>
+    
+        <div class="commission-stats">
+            <p><span class="commission-label stat">Updated On: </span>{{ commission.updated_on }}</p>
+            <p><span class="commission-label stat">Created On: </span>{{ commission.created_on }}</p>
+        </div>
+
+    </div>
+
+    <ul class='comments-section'>
+        <h2>Comments</h2>
+        {% for comment in commission.comment_set.all %}
+            <li class='comment'>
+                <p>{{ comment.entry }}</p>
+
+                <div class="comment-stats">
+
+                    <p class="comment-stat"><span class="comment-label">Created On: </span>{{ comment.created_on }}</p>
+                    <p class="comment-stat"><span class="comment-label">Updated On: </span>{{ comment.updated_on }}</p>
+                </div>
+            </li>
+        {% empty %}
+            <li class="no-comment">No comments available.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
