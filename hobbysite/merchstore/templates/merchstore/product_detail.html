@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<html>
+    <head>
+        <title>{{ product.name }}</title>
+    </head>
+    <body>
+        <h1>{{ product.name }}</h1>
+        <p><b>Product Type:</b> {{ product.product_type }}</p>
+        <p><b>Description:</b> {{ product.description }}</p>
+        <p><b>Price:</b> {{ product.price }}</p>
+        <hr>
+        <a href="{% url 'merchstore:item_list' %}">Shop All</a>
+    </body>
+</html>
