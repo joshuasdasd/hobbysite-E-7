@@ -84,3 +84,8 @@ h1 {
 .comment-label {
     font-weight: bold;
 }
+
+.commission-link {
+    text-decoration: none;
+    color: black;
+}
