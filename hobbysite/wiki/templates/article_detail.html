@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ article.title }}</title>
+</head>
+<body>
+    <h1>{{ article.title }}</h1>
+    <p><strong>Category:</strong> {{ article.category }}</p>
+    <p><strong>Created On:</strong> {{ article.created_on }}</p>
+    <p><strong>Last Updated:</strong> {{ article.updated_on }}</p>
+    <hr>
+    <div>{{ article.entry }}</div>
+    <br><a href="{% url 'wiki:article_list' %}">Back to Article List</a>
+</body>
+</html>

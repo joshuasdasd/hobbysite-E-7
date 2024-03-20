@@ -1,0 +1,16 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Article List</title>
+</head>
+<body>
+    <h1>Article List</h1>
+    <ul>
+        {% for article in object_list %}
+            <li><a href="{% url 'wiki:article_detail' pk=article.pk %}">{{ article.title }}</a></li>
+        {% empty %}
+            <li>No articles found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
