@@ -2,6 +2,8 @@ from django.shortcuts import *
 from django.views.generic.edit import *
 from django.views.generic.list import *
 from django.views.generic.detail import *
+from django.contrib.auth.mixins import *
+
 
 from .forms import *
 from .models import *
@@ -15,15 +17,16 @@ class ArticleListView(ListView):
 class ArticleDetailsView(DetailView):
     model = Article
     template_name = 'blog/article_details.html'
+    redirect_field_name = '' #homepage
 
 
-class ArticleCreateView(CreateView):
+class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     form_class = ArticleForm
-    template_name = 'recipe_create.html'
+    template_name = 'article_create.html'
 
 
-class ArticleUpdateView(UpdateView):
+class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article
     fields = '__all__'
     template_name = ''

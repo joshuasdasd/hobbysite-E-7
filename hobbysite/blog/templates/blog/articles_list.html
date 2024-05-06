@@ -1,10 +1,23 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
+
 <h2>List of Articles:</h2>
 <ul>
     {% for article in object_list %}
     <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
     {% endfor %}
 </ul>
+
+{% if request.user.is_authenticated %}
+<h2>Hello, <i>{{ request.user.username }}!</i></h2>
+<form action="{% url 'logout' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Logout</button>
+</form>
+{% else %}
+<a href="{% url 'login' %}">Login</a>
+{% endif %}
+
 {% endblock %}
