@@ -4,6 +4,7 @@ from django.urls import *
 from django import forms
 
 
+
 class ArticleCategory(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True)
@@ -18,6 +19,10 @@ class ArticleCategory(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
+    author = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL(),
+    )
     category = models.ForeignKey(
         ArticleCategory,
         on_delete=models.SET_NULL,
@@ -25,6 +30,7 @@ class Article(models.Model):
         null=True,
     )
     entry = models.TextField(null=True)
+    header_image = models.ImageField(upload_to='images/', null=True)
     created_on = models.DateTimeField(auto_created=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -37,3 +43,19 @@ class Article(models.Model):
     class Meta:
         ordering = ['-created_on']
 
+
+class Comment(models.Model):
+    author = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL(),
+    )
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.CASCADE(),
+    )
+    entry = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['created_on']
