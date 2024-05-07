@@ -16,7 +16,7 @@ class Commission(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.title} (by {self.author.username})"
+        return f"{self.title} (by {self.author})"
     
     class Meta:
         ordering = ["created_on"]
