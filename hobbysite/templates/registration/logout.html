@@ -1,0 +1,5 @@
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  {# Renders all form fields wrapped in <p> tags #}
+    <button type="submit">Submit</button>
+</form>

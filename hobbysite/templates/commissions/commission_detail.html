@@ -8,20 +8,23 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+
+    <!-- commission_detail.html -->
     <h1>Commission Detail</h1>
 
     <div class="commission">
         <a class="commission-name" href="{% url 'commissions:commission_detail' commission.pk %}">{{ commission.title }}</a>
     
+        <p>Posted by {{commission.author}}</p><br>
         <div class="commission-details">
             <p><span class="commission-label">Description: </span>{{ commission.description }}</p>
-            <p><span class="commission-label">People Required: </span>{{ commission.people_required }}</p>
         </div>
     
         <div class="commission-stats">
             <p><span class="commission-label stat">Updated On: </span>{{ commission.updated_on }}</p>
             <p><span class="commission-label stat">Created On: </span>{{ commission.created_on }}</p>
         </div>
+        <a href="{% url 'commissions:commission_update' pk=commission.pk %}">Update Commission</a>
 
     </div>
 
