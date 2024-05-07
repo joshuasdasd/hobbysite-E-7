@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Profile
 
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile 
@@ -10,6 +11,7 @@ class ProfileForm(forms.ModelForm):
             "display_name",
             "email_address"
         ]
+
 
 class RegistrationForm(UserCreationForm):
     class Meta:

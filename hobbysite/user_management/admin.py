@@ -8,8 +8,10 @@ class ProfileInLine(admin.StackedInline):
     model = Profile 
     can_delete = False
 
+
 class UserAdmin(BaseUserAdmin):
     inlines = [ProfileInLine,]
+
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)

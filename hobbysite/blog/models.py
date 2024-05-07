@@ -3,6 +3,8 @@ from django.forms import ModelForm
 from django.urls import *
 from django import forms
 
+from hobbysite import user_management
+
 
 class ArticleCategory(models.Model):
     name = models.CharField(max_length=255)
@@ -18,6 +20,10 @@ class ArticleCategory(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
+    author = models.ForeignKey(
+        user_management.Profile,
+        on_delete=models.CASCADE,
+    )
     category = models.ForeignKey(
         ArticleCategory,
         on_delete=models.SET_NULL,
