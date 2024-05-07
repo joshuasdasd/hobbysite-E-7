@@ -10,7 +10,7 @@ def index(request):
 
 class ItemListView(ListView):
     model = Product
-    template_name = 'product_list.html'
+    template_name = 'merchstore/product_list.html'
 
 class ItemDetailView(DetailView):
     model = Product
