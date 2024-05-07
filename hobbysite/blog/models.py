@@ -18,10 +18,10 @@ class ArticleCategory(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
-    # author = models.ForeignKey(
-    #     Profile,
-    #     on_delete=models.SET_NULL(),
-    # )
+    author = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL(),
+    )
     category = models.ForeignKey(
         ArticleCategory,
         on_delete=models.SET_NULL,
@@ -44,10 +44,10 @@ class Article(models.Model):
 
 
 class Comment(models.Model):
-    # author = models.ForeignKey(
-    #     Profile,
-    #     on_delete=models.SET_NULL(),
-    # )
+    author = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL(),
+    )
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
