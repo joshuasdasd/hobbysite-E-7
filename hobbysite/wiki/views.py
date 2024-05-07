@@ -25,8 +25,8 @@ class ArticleListView(ListView):
         author = self.author_profile()
         if author:
             if author:
-                articles_by_author = Article.objects.filter(author=author)
-                context['articles_by_author'] = articles_by_author
+                articles_created = Article.objects.filter(author=author)
+                context['articles_created'] = articles_created
             return context
 
 class ArticleDetailView(DetailView): #will do later
@@ -38,8 +38,8 @@ class ArticleDetailView(DetailView): #will do later
         article = self.get_object
         context['article'] = article
 
-        articles_author = Article.objects.filter(author=article.author).exclude(pk=article.pk)
-        context['articles_author'] = articles_author
+        articles_created = Article.objects.filter(author=article.author).exclude(pk=article.pk)
+        context['articles_created'] = articles_created
 
         if self.request.user.is_authenticated:
             author_profile = Profile.objecs.filter(user=self.request.user).first()
