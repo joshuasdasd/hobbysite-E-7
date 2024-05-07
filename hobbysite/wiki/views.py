@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
@@ -17,21 +17,49 @@ class AuthorProfileMixin(object):
         return None
 
 class ArticleListView(ListView):
-    model = Article
+    model = ArticleCategory
     template_name = 'wiki/article_list.html'
 
-    def ctx_data(self, **kwargs): #articles that are created by the log-in user are in a separate..
-        ctx = super().ctx_data(**kwargs)
+    def context_data(self, **kwargs): #articles that are created by the log-in user are in a separate..
+        context = super().context_data(**kwargs)
         author = self.author_profile()
         if author:
             if author:
                 articles_by_author = Article.objects.filter(author=author)
-                ctx['articles_by_author'] = articles_by_author
-            return ctx
+                context['articles_by_author'] = articles_by_author
+            return context
 
 class ArticleDetailView(DetailView): #will do later
     model = Article
     template_name = 'wiki/article_detail.html'
+
+    def context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        article = self.get_object
+        context['article'] = article
+
+        articles_author = Article.objects.filter(author=article.author).exclude(pk=article.pk)
+        context['articles_author'] = articles_author
+
+        if self.request.user.is_authenticated:
+            author_profile = Profile.objecs.filter(user=self.request.user).first()
+            context['author_profile'] = author_profile
+            context['comment_form'] = CommentForm()
+            return context
+
+    def post(self, request, **kwargs):
+        self.object = self.get_object()
+        author = Profile.objects.get(user=self.request.user)
+        article = self.get_object()
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = author
+            comment.article = article
+            comment.save()
+            return redirect('wiki:article_detail', pk=article.pk)
+        context = self.get_context_data(**kwargs)
+        return self.render_to_response(context)
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
@@ -46,7 +74,7 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = author
         return super().form_valid(form)
 
-    def cxt_data(self, **kwargs):
+    def context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         author = Profile.objects.get(user=self.request.user)
         context['form'] = ArticleForm(initial={'author': author})
@@ -63,3 +91,12 @@ class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+    
+    def context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['article'] = Article.objects.get(pk=self.object.pk)
+        return context
+    
+    #https://stackoverflow.com/questions/22646771/user-authentication-in-django
+    #https://stackoverflow.com/questions/58067267/django-filtering-articles-by-categories
+    #https://stackoverflow.com/questions/60497516/django-add-comment-section-on-posts-feed
