@@ -9,6 +9,9 @@ class Commission(models.Model):
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        ordering = ["created_on"]
 
 class Comment(models.Model):
     commission = models.ForeignKey(Commission, on_delete=models.CASCADE)
@@ -17,4 +20,4 @@ class Comment(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-created_on']
+        ordering = ['created_on']
