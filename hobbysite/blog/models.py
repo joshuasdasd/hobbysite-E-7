@@ -3,8 +3,6 @@ from django.forms import ModelForm
 from django.urls import *
 from django import forms
 
-from hobbysite import user_management
-
 
 class ArticleCategory(models.Model):
     name = models.CharField(max_length=255)
@@ -22,7 +20,7 @@ class Article(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(
         user_management.Profile,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL(),
     )
     category = models.ForeignKey(
         ArticleCategory,
@@ -31,6 +29,7 @@ class Article(models.Model):
         null=True,
     )
     entry = models.TextField(null=True)
+    header_image = models.ImageField(upload_to='images/', null=True)
     created_on = models.DateTimeField(auto_created=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -43,3 +42,19 @@ class Article(models.Model):
     class Meta:
         ordering = ['-created_on']
 
+
+class Comment(models.Model):
+    author = models.ForeignKey(
+        user_management.Profile,
+        on_delete=models.SET_NULL(),
+    )
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.CASCADE,
+    )
+    entry = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['created_on']
