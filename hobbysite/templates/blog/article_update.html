@@ -3,3 +3,23 @@ On and Author field.
 ■ This should only be accessible to logged-in users.
 
 insert form
+<form action="/blog/articles" method="post">
+    {% csrf_token %}
+    <label for="title">
+        <span>Title</span>
+        <input type="text" id="title" name="title">
+    </label>
+    <label for="category">
+        <span>Category</span>
+        <input type="text" id="category" name="category">
+    </label>
+    <label for="entry">
+        <span>Entry</span>
+        <input type="text" id="entry" name="entry">
+    </label>
+    <label for="updated_on">
+        <span>Updated on:</span>
+        <input type="datetime" id="updated_on" name="updated_on">
+    </label>
+    <input type="submit" value="Submit">
+</form>

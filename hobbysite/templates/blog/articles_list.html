@@ -7,8 +7,9 @@
 # articles created by the logged-in user
 <ul>
     {% for article in object_list %}
-    {% if article.author = request.user %}
-    <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
+        {% if article.author == request.user %}
+            <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
+        {% endif %}
     {% endfor %}
 </ul>
 
@@ -19,12 +20,12 @@
 <h2>List of Articles:</h2>
 <ul>
     {% for category in category %}
-    {{ category.object.tile }}
+        {{ category.object.tile }}
     {% endfor %}
 
     {% for article in object_list %}
-    # remove created by user
-    <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
+        # remove created by user
+        <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
     {% endfor %}
 </ul>
 

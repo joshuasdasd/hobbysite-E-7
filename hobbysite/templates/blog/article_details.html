@@ -15,7 +15,7 @@
 {% endif %}
 
 {% for article in object_list %}
-    {% if object.author = article.author %}
+    {% if object.author == article.author %}
         <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
     {% endif %}
 {% endfor %}

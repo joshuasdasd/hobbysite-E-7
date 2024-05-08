@@ -9,32 +9,30 @@ from .forms import *
 from .models import *
 
 
-class ArticleListView(LoginRequiredMixin, ListView):
+class ArticleListView(ListView):
     model = Article
     template_name = 'blog/articles_list.html'
-    redirect_field_name = '/homepage'
+    redirect_field_name = 'blog/articles_list.html'
 
 
-class ArticleDetailsView(LoginRequiredMixin, DetailView):
+class ArticleDetailsView(DetailView):
     model = Article
     template_name = 'blog/article_details.html'
-    redirect_field_name = '/homepage'
+    redirect_field_name = 'blog/articles_list.html'
 
 
-class ArticleCreateView(LoginRequiredMixin, CreateView):
+class ArticleCreateView(CreateView):
     model = Article
     fields = '__all__'
-    form_class = ArticleForm
     template_name = 'blog/article_create.html'
-    redirect_field_name = '/homepage'
+    redirect_field_name = 'blog/articles_list.html'
 
 
-class ArticleUpdateView(LoginRequiredMixin, UpdateView):
+class ArticleUpdateView(UpdateView):
     model = Article
     fields = '__all__'
-    form_class = ArticleForm
     template_name = 'blog/article_update.html'
-    redirect_field_name = '/homepage'
+    redirect_field_name = 'blog/articles_list.html'
 
 
 # class RecipeAddImageView(LoginRequiredMixin, UpdateView):
