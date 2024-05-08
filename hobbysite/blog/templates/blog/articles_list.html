@@ -2,22 +2,31 @@
 
 {% block content %}
 
-<h2>List of Articles:</h2>
+
+{% if request.user.is_authenticated %}
+# articles created by the logged-in user
 <ul>
     {% for article in object_list %}
+        {% if article.author = request.user %}
+        <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
+    {% endfor %}
+</ul>
+
+<li><a href="{% url 'blog:article_create' %}">Create an article</a></li>
+{% endif %}
+
+
+<h2>List of Articles:</h2>
+<ul>
+    {% for category in category %}
+        {{ category.object.tile }}
+    {% endfor %}
+
+    {% for article in object_list %}
+        # remove created by user
     <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
     {% endfor %}
 </ul>
 
-{% if request.user.is_authenticated %}
-<h2>Hello, <i>{{ request.user.username }}!</i></h2>
-<form action="{% url 'logout' %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Logout</button>
-</form>
-{% else %}
-<a href="{% url 'login' %}">Login</a>
-{% endif %}
 
 {% endblock %}

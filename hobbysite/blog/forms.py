@@ -8,8 +8,8 @@ class ArticleForm(forms.ModelForm):
         fields = '__all__'
 
 
-class ArticleImageForm(forms.ModelForm):
+class CommentForm(forms.ModelForm):
     class Meta:
-        model = Article.header_image
+        model = Comment
         fields = '__all__'
 

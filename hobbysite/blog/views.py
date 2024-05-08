@@ -17,11 +17,12 @@ class ArticleListView(ListView):
 class ArticleDetailsView(DetailView):
     model = Article
     template_name = 'blog/article_details.html'
-    redirect_field_name = '' #homepage
+    redirect_field_name = '/homepage'
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
+    fields = '__all__'
     form_class = ArticleForm
     template_name = 'article_create.html'
 
@@ -29,8 +30,8 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article
     fields = '__all__'
-    template_name = ''
-    form_class = ''
+    form_class = ArticleForm
+    template_name = 'article_update.html'
 
 
 
