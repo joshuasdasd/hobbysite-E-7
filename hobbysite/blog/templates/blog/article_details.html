@@ -24,6 +24,29 @@
 
 {% if request.user.is_authenticated %}
     #comment form
+
+<form action="/" method="post">
+    {% csrf_token %}
+    <label for="author">
+        <span>Author</span>
+        <input type="text" id="author" name="author">
+    </label>
+    <label for="article">
+        <span>Article</span>
+        <input type="text" id="article" name="article">
+    </label>
+    <label for="entry">
+        <span>Entry</span>
+        <input type="text" id="entry" name="entry">
+    </label>
+<!--    <select id="taskgroup" name="taskgroup">-->
+<!--        {% for group in taskgroups %}-->
+<!--        <option value="{{ group.pk }}">{{ group.name }}</option>-->
+<!--        {% endfor %}-->
+<!--    </select>-->
+    <input type="submit" value="Submit">
+</form>
+
 {% endif %}
 
 <a href="/blog/articles/">< Back</a>
