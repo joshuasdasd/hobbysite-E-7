@@ -9,12 +9,13 @@ from .forms import *
 from .models import *
 
 
-class ArticleListView(ListView):
+class ArticleListView(LoginRequiredMixin, ListView):
     model = Article
     template_name = 'blog/articles_list.html'
+    redirect_field_name = '/homepage'
 
 
-class ArticleDetailsView(DetailView):
+class ArticleDetailsView(LoginRequiredMixin, DetailView):
     model = Article
     template_name = 'blog/article_details.html'
     redirect_field_name = '/homepage'
@@ -24,14 +25,16 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
     fields = '__all__'
     form_class = ArticleForm
-    template_name = 'article_create.html'
+    template_name = 'blog/article_create.html'
+    redirect_field_name = '/homepage'
 
 
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     model = Article
     fields = '__all__'
     form_class = ArticleForm
-    template_name = 'article_update.html'
+    template_name = 'blog/article_update.html'
+    redirect_field_name = '/homepage'
 
 
 # class RecipeAddImageView(LoginRequiredMixin, UpdateView):

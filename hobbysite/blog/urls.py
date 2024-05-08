@@ -1,14 +1,12 @@
-from django import forms
-from .models import *
+from django.urls import path
 
+from .views import *
 
-class ArticleForm(forms.ModelForm):
-    class Meta:
-        model = Article
-        fields = '__all__'
+urlpatterns = [
+    path('articles/', ArticleListView.as_view(), name='articles_list'),
+    path('article/<int:pk>/', ArticleDetailsView.as_view(), name='article_details'),
+    path('article/add', ArticleCreateView.as_view(), name='article_create'),
+    path('article/<int:pk>/edit', ArticleUpdateView.as_view(), name='article_update')
+]
 
-
-class CommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = '__all__'
+app_name = "blog"
