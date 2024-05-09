@@ -19,14 +19,14 @@ class ArticleCategory(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
-    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null = True)
+    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null = True, blank = True)
     category = models.ForeignKey(
         ArticleCategory,
         on_delete=models.SET_NULL,
         null=True,
     )
     entry = models.TextField()
-    header_images = models.ImageField(upload_to='images/', null = True)
+    header_images = models.ImageField(upload_to='images/', null = True, blank = True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 

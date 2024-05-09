@@ -1,4 +1,5 @@
 from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView
@@ -55,6 +56,9 @@ class ArticleDetailView(DetailView):
             context['author_profile'] = author_profile
             context['comment_form'] = CommentForm()
 
+        # Add comments to the context
+        context['comments'] = article.comment_set.all()
+
         return context
 
     def post(self, request, **kwargs):
@@ -73,11 +77,13 @@ class ArticleDetailView(DetailView):
             comment.author = author
             comment.article = article
             comment.save()
+            # Redirect back to the same article after comment submission
             return redirect('wiki:article_detail', pk=article.pk)
         
-        # If form is invalid, render the context again
+        # If form is invalid, re-render the context with errors
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context)
+
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
@@ -89,10 +95,11 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
         return reverse_lazy('wiki:article_detail', kwargs={'pk': self.object.pk})
     
     def form_valid(self, form):
-        author = Profile.objects.get(user=self.request.user)
-        form.instance.user = author
+        # Retrieve or create the Profile object for the current user
+        author = get_object_or_404(Profile, user=self.request.user)
+        form.instance.author = author
         return super().form_valid(form)
-
+    
     def get_context_data(self, **kwargs):
         print(self.request.user)
         context = super().get_context_data(**kwargs)

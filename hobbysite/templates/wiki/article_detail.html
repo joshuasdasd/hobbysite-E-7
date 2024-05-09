@@ -24,7 +24,7 @@
 		{% endif %}
 	{% endif %}
 
-    <h2>Other Articles by {{ article.author.username }}</h2>
+    <h2>Other Articles by {{ article.author.user.username }}</h2>
     <ul>
         {% for related_article in articles_created %}
             <li><a href="{{ related_article.get_absolute_url }}">{{ related_article.title }}</a></li>
@@ -35,7 +35,7 @@
         <h2>Add Comment</h2>
         <form method="post" action="{% url 'wiki:article_detail' article.pk %}">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ comment_form.as_p }}
         <button type="submit">Submit</button>
         </form>
     {% else %}
