@@ -71,8 +71,10 @@ class Transaction(models.Model):
     )
     created_on = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.name
+    class Meta:
+        ordering = ['buyer']
+        verbose_name = 'Buyer'
+        verbose_name_plural = 'Buyers'
 
     def get_absolute_url(self):
         return reverse('merchstore:item_detail', args=[self.pk])

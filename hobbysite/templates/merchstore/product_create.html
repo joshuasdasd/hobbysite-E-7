@@ -2,22 +2,42 @@
 <html lang="en-US">
 <html>
     <head>
-        <title>Product Create</title>
+        <title>Merchandise Store</title>
+        <div class = "header">
+            <marquee scrollamount="40">
+                <h1 style="font-family:verdana">Product Creation</h1>
+            </marquee>
+        </div>
+        <style>
+            .header {
+                width: 100%;
+                background-color: black;
+                border-style: dotted;
+                color: white;
+            }   
+
+            .body {
+                font-family: "verdana"
+            }
+        </style>
     </head>
     <body>
-        <h1>Product Creation</h1>
-        <b>Product Type:</b>
-        <select name="product_type" id="product_type">
-            <option value=""></option>
-        </select>
-        <br>
-        <b>Status:</b>
-        <select name="status" id="status">
-            <option value="available">Available</option>
-            <option value="on sale">On sale</option>
-            <option value="out of stock">Out of stock</option>
-        </select>
-        <br>
-        <button type="submit">Create</button>
+        <div class = "body">
+            <b>Product Type</b>
+            {% for product_type in object_list %}
+                <select name="product_type" id="product_type">
+                    <option value="{{ product_type }}">{{ product_type.name }}</option>
+                </select>
+            {% endfor %}
+            <br>
+            <b>Status</b>
+            <select name="status" id="status">
+                <option value="available">Available</option>
+                <option value="on sale">On sale</option>
+                <option value="out of stock">Out of stock</option>
+            </select>
+            <br>
+            <button type="submit">Create</button>
+        </div>
     </body>
 </html>
