@@ -8,6 +8,8 @@ from .models import Article, ArticleCategory
 from .forms import ArticleForm, CommentForm
 from user_management.models import Profile
 from django.urls import reverse_lazy
+from django.db.models import Prefetch
+
 
 # Create your views here.
 class AuthorProfileMixin(object):
@@ -27,13 +29,16 @@ class ArticleListView(AuthorProfileMixin, ListView):
         if author:
             articles_created = Article.objects.filter(author=author)
             context['articles_created'] = articles_created
-        return context
+        
+        # Fetch all categories along with their articles
+        categories_with_articles = ArticleCategory.objects.prefetch_related(
+            Prefetch('article_set', 
+            queryset=Article.objects.filter(author=author))
+        )
+        
+        context['categories_with_articles'] = categories_with_articles
 
-from django.shortcuts import redirect
-from django.views.generic.detail import DetailView
-from user_management.models import Profile
-from .models import Article
-from .forms import CommentForm
+        return context
 
 class ArticleDetailView(DetailView):
     model = Article
@@ -128,3 +133,4 @@ class ArticleUpdateView(LoginRequiredMixin, UpdateView):
     #https://stackoverflow.com/questions/22646771/user-authentication-in-django
     #https://stackoverflow.com/questions/58067267/django-filtering-articles-by-categories
     #https://stackoverflow.com/questions/60497516/django-add-comment-section-on-posts-feed
+    #https://stackoverflow.com/questions/31237042/whats-the-difference-between-select-related-and-prefetch-related-in-django-orm
