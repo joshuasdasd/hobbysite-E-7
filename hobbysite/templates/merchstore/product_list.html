@@ -11,16 +11,45 @@
 <html>
     <head>
         <title>Merchandise Store</title>
+        <div class = "header">
+            <marquee scrollamount="40">
+                <h1 style="font-family:verdana">Product List</h1>
+            </marquee>
+        </div>
+        <style>
+            .header {
+                width: 100%;
+                background-color: black;
+                border-style: dotted;
+                color: white;
+            }   
+
+            .body {
+                font-family: "verdana"
+            }
+        </style>
     </head>
     <body>
-        <h1>Product List</h1>
-        <ul>
-            {% for product in object_list %}
-                <li><a href="{% url 'merchstore:item_detail' pk=product.pk %}">{{ product.name }}</a></li>
-            {% empty %}
-                <li>No products found.</li>
-            {% endfor %}
-        </ul>
+        <div class="body">
+            <h3>All products</h3>
+            <ul>
+                {% for product in object_list %}
+                    <li><a href="{% url 'merchstore:item_detail' pk=product.pk %}">{{ product.name }}</a></li>
+                {% empty %}
+                    <li>No products found.</li>
+                {% endfor %}
+            </ul>
+            {% if request.user.is_authenticated %}
+            <h3>{{ request.user.username }}'s products</h3>
+                {% for product in object_list %}
+                    <li><a href="{% url 'merchstore:item_detail' pk=product.pk %}">{{ product.name }}</a></li>
+                {% empty %}
+                    <li>No products found.</li>
+                {% endfor %}
+            {% else %}
+                <h4>Want to see your products? Log-in <a href="{% url 'login' %}">here</a>.</h3>
+            {% endif %}
+        </div>
     </body>
 </html>
 
