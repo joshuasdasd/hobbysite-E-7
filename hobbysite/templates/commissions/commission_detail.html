@@ -1,21 +1,29 @@
+
+
+
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Commission Detail</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
+
+{% block content %}
+
 <body>
 
     <!-- commission_detail.html -->
-    <h1>Commission Detail</h1>
+    <div class="commissions-header">
+        <h1>Commission Detail</h1>
 
+        <div class="commissions-create-button">
+
+        <a href="{% url 'commissions:commission_update' pk=commission.pk %}">Update commission</a>
+        </div>
+    </div>
     <div class="commission">
         <a class="commission-name" href="{% url 'commissions:commission_detail' commission.pk %}">{{ commission.title }}</a>
     
-        <p>Posted by {{commission.author}}</p><br>
+        <p>Submitted by <strong>{{commission.author}}</strong></p><br>
         <div class="commission-details">
             <p><span class="commission-label">Description: </span>{{ commission.description }}</p>
         </div>
@@ -24,7 +32,6 @@
             <p><span class="commission-label stat">Updated On: </span>{{ commission.updated_on }}</p>
             <p><span class="commission-label stat">Created On: </span>{{ commission.created_on }}</p>
         </div>
-        <a href="{% url 'commissions:commission_update' pk=commission.pk %}">Update Commission</a>
 
     </div>
 
@@ -45,4 +52,4 @@
         {% endfor %}
     </ul>
 </body>
-</html>
+{% endblock %}

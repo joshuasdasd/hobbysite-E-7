@@ -4,6 +4,8 @@
     <title>User Details</title>
 </head>
 <body>
+
+    <h3>Currently logged in as {{ profile.display_name }}</h3>
     <form action="" method="POST">
         {% csrf_token %}
         {{ form.as_div }}

@@ -1,8 +1,25 @@
 <!-- commission_update.html -->
 
+
+
+
+{% extends 'base.html' %}
+{% block title %}Update commission{% endblock %}
+
+{% load static %}
+
+
+{% block content %}
+
 <h1>Update Commission</h1>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Update</button>
+
+    <div class="form-buttons">
+        <a href="{% url 'commissions:commission_list' %}">Go back to Commission List</a>
+        <button type="submit">Submit</button>
+    </div>
 </form>
+
+{% endblock %}

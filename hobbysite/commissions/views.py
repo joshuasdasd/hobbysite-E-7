@@ -1,3 +1,13 @@
+# views.py
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from .models import Commission, Job
+from .forms import CommissionForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Commission
+from .forms import CommissionForm
+
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Commission
 from .forms import *
@@ -5,7 +15,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from .models import Commission, Job
-from .forms import CommissionForm
 
 class CommissionListView(ListView):
     model = Commission
@@ -17,16 +26,6 @@ class CommissionDetailView(DetailView):
     template_name = 'commissions/commission_detail.html'
     context_object_name = 'commission'
 
-# views.py
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
-from .models import Commission, Job
-from .forms import CommissionForm
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
-from .models import Commission
-from .forms import CommissionForm
 
 class CommissionCreateView(LoginRequiredMixin, CreateView):
     model = Commission
@@ -48,6 +47,7 @@ class CommissionUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         commission = self.object
+        
         # Check if all related jobs have status 'FULL'
         if commission.job_set.exclude(status='FULL').exists():
             commission.status = 'OPEN'

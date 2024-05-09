@@ -1,5 +1,24 @@
+
+
+
+{% extends 'base.html' %}
+{% block title %}Submit new commission{% endblock %}
+
+{% load static %}
+
+
+{% block content %}
+
+<h1>Submit a new Commission</h1>
+
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}  {# Renders all form fields wrapped in <p> tags #}
-    <button type="submit">Submit</button>
+
+    <div class="form-buttons">
+        <a href="{% url 'commissions:commission_list' %}">Go back to Commission List</a>
+        <button type="submit">Submit</button>
+    </div>
 </form>
+
+{% endblock %}
