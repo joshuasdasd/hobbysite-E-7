@@ -7,11 +7,11 @@ class Commission(models.Model):
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='created_commissions', null=True)
 
     status = models.CharField(max_length=12, choices=(
-        ('OPEN', 'Open'),
-        ('FULL' ,'Full'),
-        ('COMPLETED', 'Completed'),
-        ('DISCONTINUED', 'Discontinued'),
-    ), default='OPEN')
+        ('Open', 'Open'),
+        ('Full' ,'Full'),
+        ('Completed', 'Completed'),
+        ('Discontinued', 'Discontinued'),
+    ), default='Open')
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -19,14 +19,14 @@ class Commission(models.Model):
         return f"{self.title} (by {self.author})"
     
     class Meta:
-        ordering = ["created_on"]
+        ordering = ["-status", "-created_on"]
 
 
 class Job(models.Model):
     commission = models.ForeignKey(Commission, on_delete=models.CASCADE)
     role = models.CharField(max_length=255)
     manpower_required = models.IntegerField()
-    status = models.CharField(max_length=10, choices = (('OPEN', 'Open'),('FULL', 'full')), default='OPEN')
+    status = models.CharField(max_length=10, choices = (('Open', 'Open'),('Full', 'Full')), default='Open')
 
     class Meta:
         ordering = ["-status", "-manpower_required", "role"]
@@ -34,7 +34,7 @@ class Job(models.Model):
 class JobApplication(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     applicant = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    status = models.CharField(max_length=10, choices = (('PENDING', 'Pending'),('ACCEPTED', 'Accepted'), ('REJECTED', 'Rejected')), default='PENDING')
+    status = models.CharField(max_length=10, choices = (('Pending', 'Pending'),('Accepted', 'Accepted'), ('Rejected', 'Rejected')), default='Pending')
     applied_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:

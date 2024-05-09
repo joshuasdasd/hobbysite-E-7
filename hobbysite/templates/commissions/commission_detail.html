@@ -10,15 +10,18 @@
 {% block content %}
 
 <body>
-
     <!-- commission_detail.html -->
     <div class="commissions-header">
         <h1>Commission Detail</h1>
+
+        {% if user.is_authenticated %}
 
         <div class="commissions-create-button">
 
         <a href="{% url 'commissions:commission_update' pk=commission.pk %}">Update commission</a>
         </div>
+
+        {% endif %}
     </div>
     <div class="commission">
         <a class="commission-name" href="{% url 'commissions:commission_detail' commission.pk %}">{{ commission.title }}</a>
@@ -35,21 +38,30 @@
 
     </div>
 
-    <ul class='comments-section'>
-        <h2>Comments</h2>
-        {% for comment in commission.comment_set.all %}
-            <li class='comment'>
-                <p>{{ comment.entry }}</p>
+    <h2>Available Jobs</h2>
 
-                <div class="comment-stats">
+    <div class="commission-jobs">
 
-                    <p class="comment-stat"><span class="comment-label">Created On: </span>{{ comment.created_on }}</p>
-                    <p class="comment-stat"><span class="comment-label">Updated On: </span>{{ comment.updated_on }}</p>
+        {% for job in jobs %}
+            {% if job.commission.pk == commission.pk %}
+
+            <div class="commission-job">
+                <div class="job-information">
+                    <h3>{{job.role}}</h3>
+                    <p>Manpower Required: {{job.manpower_required}} persons</p>
+                    <p>Status: {{job.status}}</p>
                 </div>
-            </li>
-        {% empty %}
-            <li class="no-comment">No comments available.</li>
+
+                {% if user.is_authenticated %}
+                <div class="commissions-create-button">
+                    <a href="{% url 'commissions:commission_update' pk=commission.pk %}">Apply</a>
+                </div>
+                {% endif %}
+
+            </div>
+            <hr>
+            {% endif %}
         {% endfor %}
-    </ul>
+    </div>
 </body>
 {% endblock %}

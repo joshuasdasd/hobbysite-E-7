@@ -6,5 +6,3 @@ class CommissionForm(forms.ModelForm):
         model = Commission
         fields = "__all__"
         exclude = ['author'] # Exclude the author, this is automatically set to the user's Profile
-        
-

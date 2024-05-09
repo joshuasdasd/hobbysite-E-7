@@ -17,8 +17,8 @@
     {{ form.as_p }}
 
     <div class="form-buttons">
-        <a href="{% url 'commissions:commission_list' %}">Go back to Commission List</a>
-        <button type="submit">Submit</button>
+        <a class="cancel-link" href="{% url 'commissions:commission_list' %}">Go back to Commission List</a>
+        <button class="commissions-create-button" type="submit">Submit</button>
     </div>
 </form>
 
