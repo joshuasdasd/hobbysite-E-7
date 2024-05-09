@@ -16,41 +16,57 @@ class AuthorProfileMixin(object):
             return author
         return None
 
-class ArticleListView(ListView):
+class ArticleListView(AuthorProfileMixin, ListView):
     model = ArticleCategory
     template_name = 'wiki/article_list.html'
 
-    def context_data(self, **kwargs): #articles that are created by the log-in user are in a separate..
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        author = self.get_author_profile()
+        author = self.author_profile()
         if author:
-            if author:
-                articles_created = Article.objects.filter(author=author)
-                context['articles_created'] = articles_created
-            return context
+            articles_created = Article.objects.filter(author=author)
+            context['articles_created'] = articles_created
+        return context
 
-class ArticleDetailView(DetailView): #will do later
+from django.shortcuts import redirect
+from django.views.generic.detail import DetailView
+from user_management.models import Profile
+from .models import Article
+from .forms import CommentForm
+
+class ArticleDetailView(DetailView):
     model = Article
     template_name = 'wiki/article_detail.html'
 
-    def context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        article = self.get_object
+        
+        # Get the article object
+        article = self.get_object()
         context['article'] = article
 
+        # Get articles created by the same author
         articles_created = Article.objects.filter(author=article.author).exclude(pk=article.pk)
         context['articles_created'] = articles_created
 
+        # If user is authenticated, provide author profile and comment form
         if self.request.user.is_authenticated:
-            author_profile = Profile.objecs.filter(user=self.request.user).first()
+            author_profile = Profile.objects.filter(user=self.request.user).first()
             context['author_profile'] = author_profile
             context['comment_form'] = CommentForm()
-            return context
+
+        return context
 
     def post(self, request, **kwargs):
         self.object = self.get_object()
+        
+        # Get the current user's profile
         author = Profile.objects.get(user=self.request.user)
+        
+        # Get the article object
         article = self.get_object()
+        
+        # Process comment form submission
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
@@ -58,8 +74,11 @@ class ArticleDetailView(DetailView): #will do later
             comment.article = article
             comment.save()
             return redirect('wiki:article_detail', pk=article.pk)
+        
+        # If form is invalid, render the context again
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context)
+
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
@@ -74,7 +93,7 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
         form.instance.user = author
         return super().form_valid(form)
 
-    def context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):
         print(self.request.user)
         context = super().get_context_data(**kwargs)
         author = Profile.objects.get(user=self.request.user)
@@ -94,7 +113,7 @@ class ArticleUpdateView(LoginRequiredMixin, UpdateView):
         form.instance.user = author
         return super().form_valid(form)
     
-    def context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['article'] = Article.objects.get(pk=self.object.pk)
         return context
