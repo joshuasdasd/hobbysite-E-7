@@ -9,8 +9,49 @@
     <p><strong>Category:</strong> {{ article.category }}</p>
     <p><strong>Created On:</strong> {{ article.created_on }}</p>
     <p><strong>Last Updated:</strong> {{ article.updated_on }}</p>
+
     <hr>
+
+    {% if article.header_images %}
+    <img src="{{ article.header_images.url }}" alt="{{ article.title }}">
+    {% endif %}
+
     <div>{{ article.entry }}</div>
+
+    {% if request.user.is_authenticated %}
+		{% if article.author == user.profile %}
+			<p><a href="{% url 'wiki:article_update' pk=object.pk %}">Edit</a></p>
+		{% endif %}
+	{% endif %}
+
+    <h2>Other Articles by {{ article.author.username }}</h2>
+    <ul>
+        {% for related_article in articles_created %}
+            <li><a href="{{ related_article.get_absolute_url }}">{{ related_article.title }}</a></li>
+        {% endfor %} 
+    </ul>
+
+    {% if request.user.is_authenticated %}
+        <h2>Add Comment</h2>
+        <form method="post" action="{% url 'wiki:article_detail' article.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+        </form>
+    {% else %}
+        <p>Please <a href="{% url 'login' %}">log in</a> to add comments.</p>
+    {% endif %}
+
+    <h2>Comments</h2>
+    <ul>
+        {% for comment in comments %}
+        <li>{{ comment.entry }} - {{ comment.author }} </li>
+        {% empty %}
+        <li>No comments yet.</li>
+        {% endfor %}
+    </ul>
+
     <br><a href="{% url 'wiki:article_list' %}">Back to Article List</a>
+
 </body>
 </html>

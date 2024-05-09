@@ -1,3 +1,6 @@
+{% load static %}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5,11 +8,31 @@
 </head>
 <body>
     <h1>Article List</h1>
+    {% if request.user.is_authenticated %}
+        <h2>Your Articles:</h2>
+        <ul>
+            {% for article in articles_created %}
+                <li><a href="{% url 'wiki:article_detail' pk=article.pk %}">{{ article.title }}</a></li>
+            {% empty %}
+                <li>You have not made any articles yet.</li>
+            {% endfor %}
+        </ul>
+        <footer><a href="{% url 'wiki:article_create' %}">Create a New Article</a></footer>
+    {% endif %}
+
+    <h2>List of Articles:</h2>
     <ul>
-        {% for article in object_list %}
-            <li><a href="{% url 'wiki:article_detail' pk=article.pk %}">{{ article.title }}</a></li>
+        {% for category in object_list %}
+            <li>{{ category.title }}</li> 
+            <ul>
+                {% for article in category.article_set.all %}
+                    <li><a href="{% url 'wiki:article_detail' pk=article.pk %}">{{ article.title }}</a></li>
+                {% empty %}
+                    <li>No articles found in this category.</li>
+                {% endfor %}
+            </ul>
         {% empty %}
-            <li>No articles found.</li>
+            <li>No categories found.</li>
         {% endfor %}
     </ul>
 </body>

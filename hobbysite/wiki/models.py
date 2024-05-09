@@ -26,7 +26,7 @@ class Article(models.Model):
         null=True,
     )
     entry = models.TextField()
-    header_images = models.ImageField(upload_to='images/', null = True, blank = True)
+    header_images = models.ImageField(upload_to='images/', null = True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 

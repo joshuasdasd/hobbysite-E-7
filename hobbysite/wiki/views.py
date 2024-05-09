@@ -21,8 +21,8 @@ class ArticleListView(ListView):
     template_name = 'wiki/article_list.html'
 
     def context_data(self, **kwargs): #articles that are created by the log-in user are in a separate..
-        context = super().context_data(**kwargs)
-        author = self.author_profile()
+        context = super().get_context_data(**kwargs)
+        author = self.get_author_profile()
         if author:
             if author:
                 articles_created = Article.objects.filter(author=author)
@@ -71,10 +71,11 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     
     def form_valid(self, form):
         author = Profile.objects.get(user=self.request.user)
-        form.instance.author = author
+        form.instance.user = author
         return super().form_valid(form)
 
     def context_data(self, **kwargs):
+        print(self.request.user)
         context = super().get_context_data(**kwargs)
         author = Profile.objects.get(user=self.request.user)
         context['form'] = ArticleForm(initial={'author': author})
@@ -89,7 +90,8 @@ class ArticleUpdateView(LoginRequiredMixin, UpdateView):
         return reverse_lazy('wiki:article_detail', kwargs={'pk': self.object.pk})
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        author = Profile.objects.get(user=self.request.user)
+        form.instance.user = author
         return super().form_valid(form)
     
     def context_data(self, **kwargs):
