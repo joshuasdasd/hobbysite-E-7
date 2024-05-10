@@ -28,6 +28,10 @@ class ProductUpdateView(UpdateView):
     template_name = 'merchstore/product_update.html'
     fields = '__all__'
 
+class CartListView(ListView):
+    model = Transaction
+    template_name = 'merchstore/cart_list.html'    
+
 class TransactionListView(ListView):
     model = Transaction
     template_name = 'merchstore/transaction_list.html'
