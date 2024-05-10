@@ -45,6 +45,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_absolute_url(self):
+        return reverse('merchstore:item_detail', args=[self.pk])
 
 class Transaction(models.Model):
     buyer = models.ForeignKey(
@@ -75,6 +78,3 @@ class Transaction(models.Model):
         ordering = ['buyer']
         verbose_name = 'Buyer'
         verbose_name_plural = 'Buyers'
-
-    def get_absolute_url(self):
-        return reverse('merchstore:item_detail', args=[self.pk])

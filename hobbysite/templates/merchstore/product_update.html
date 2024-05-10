@@ -2,6 +2,38 @@
 <html lang="en-US">
 <html>
     <head>
-        <title>Product Update</title>
+        <title>Merchandise Store</title>
+        <div class = "header">
+            <marquee scrollamount="40">
+                <h1 style="font-family:verdana">Product Update</h1>
+            </marquee>
+        </div>
+        <style>
+            .header {
+                width: 100%;
+                background-color: black;
+                border-style: dotted;
+                color: white;
+            }   
+
+            .body {
+                font-family: "verdana"
+            }
+        </style>
     </head>
+    <body>
+        <div class="body">
+            {% if request.user.is_authenticated %}
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <p><button type="submit">Submit</button></p>
+                    <br>
+                    <a href="{% url 'merchstore:item_detail' pk=product.pk %}">Go back to product.</a>
+                </form>
+                {% else %}
+                    <h4>Please log-in<a href="{% url 'login' %}">to edit this product.</a>.</h4>
+            {% endif %}    
+        </div>
+    </body>
 </html>
