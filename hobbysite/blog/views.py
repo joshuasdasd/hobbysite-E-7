@@ -43,10 +43,13 @@ class ArticleDetailsView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        article_objects = Article.objects.all()
         article = self.get_object()
         comments_objects = Comment.objects.all()
+
         context['article'] = article
         context['comments'] = comments_objects
+        context['articles'] = article_objects
 
         if self.request.user.is_authenticated:
             context['comment_form'] = CommentForm()

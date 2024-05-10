@@ -12,7 +12,7 @@
 <p>✤ Category: {{ article.category }}</p>
 <p>✤ Created on: {{ article.created_on }}</p>
 <p><i>✤ Entry:</i></p>
-<p>{{ article.entry }}</p>
+<span class="article-entry"><p>{{ article.entry }}</p></span>
 <p>* Last updated: {{ article.updated_on }}</p>
 
 
@@ -22,6 +22,7 @@
     {% endif %}
 {% endif %}
 
+<section class="comments-form">
 <p>
 {% if request.user.is_authenticated %}
     <h2>Comments</h2>
@@ -34,24 +35,30 @@
     <p><a href="{% url 'login' %}">Log-in</a> to add comments.</p>
 {% endif %}
 </p>
+</section>
 
-<p>
+<section class="existing-comments">
+    <p>
     {% if comments %}
     <ul>
         {% for comment in comments %}
-        <li>
-            <span class="comment-author">{{ comment.author }}</span>:{{ comment.entry }}
-            <span class="comment-time"><br>Created on: {{ comment.created_on }}</span>
-        </li>
+        {% if comment.article == article %}
+            <li>
+                <span class="comment-author"><i>{{ comment.author }}</i></span>:
+                <span class="comment-entry"><b>{{ comment.entry }}</b></span>
+                <span class="comment-time"><br>Created on: {{ comment.created_on }}</span>
+            </li>
+        {% endif%}
         {% endfor %}
     </ul>
     {% else %}
     <p class="no-comments">No comments yet.</p>
     {% endif %}
 </p>
+</section>
 
 
-
+<section class="other-articles-by">
 <h3>Other articles by {{article.author.user}}: </h3>
 {% for art in articles %}
     {% if art.author.user == request.user %}
@@ -60,7 +67,7 @@
         {% endif %}
     {% endif %}
 {% endfor %}
-
+</section>
 
 <p><a href="/blog/articles/">< Back</a></p>
 
