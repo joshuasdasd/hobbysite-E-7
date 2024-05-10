@@ -16,13 +16,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from .views import HomepageView
 
+app_name = "hobbysit"
 urlpatterns = [
+
     path('merchstore/', include('merchstore.urls', namespace='merchstore')),
     path('admin/', admin.site.urls),
     path('wiki/', include('wiki.urls', namespace='wiki')),
     path('blog/', include('blog.urls', namespace="blog")),
     path('commissions/', include('commissions.urls')),
-    path('user_management/', include('user_management.urls', namespace='user_management')),
+    
+    # For handling user login, registration, and 
+    path('', include('user_management.urls', namespace='user_management')),
     path("accounts/", include("django.contrib.auth.urls")),
+
+    path('home', HomepageView.as_view(), name = 'homepage')
+
 ]

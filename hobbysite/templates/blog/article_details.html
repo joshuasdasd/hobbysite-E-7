@@ -1,4 +1,7 @@
-{% extends 'blog/base.html' %}
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% load static %}
 
 {% block content %}
     <h1><span style="background-color: #E6E6FA">⋆˚࿔  {{ object.title }}  𝜗𝜚˚⋆</span></h1>
@@ -7,5 +10,6 @@
     <p><i>✤ Entry:</i></p>
     <p>{{ object.entry }}</p>
     <p>* Last updated: {{ object.updated_on }}</p>
-<a href="/blog/articles/">< Back</a>
+    <a href="/blog/articles/">Back</a>
+
 {% endblock %}
