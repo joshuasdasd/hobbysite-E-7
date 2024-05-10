@@ -13,6 +13,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
+
 class CommissionListView(ListView):
     template_name = 'commissions/commission_list.html'
 
@@ -47,6 +48,7 @@ class CommissionListView(ListView):
         context['user_commissions'] = model3_objects
         
         return context
+
 
 
 

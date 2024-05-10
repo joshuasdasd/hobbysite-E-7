@@ -1,0 +1,12 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <a href="{% url 'blog:articles_list' %}">Go back to List of Articles</a>
+            <p><button type="submit">Submit</button></p>
+        </form>
+    {% endif %}
+{% endblock %}

@@ -3,6 +3,8 @@ from django.forms import ModelForm
 from django.urls import *
 from django import forms
 
+from user_management.models import Profile
+
 
 class ArticleCategory(models.Model):
     name = models.CharField(max_length=255)
@@ -18,6 +20,11 @@ class ArticleCategory(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
+    author = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL,
+        null=True,
+    )
     category = models.ForeignKey(
         ArticleCategory,
         on_delete=models.SET_NULL,
@@ -25,6 +32,7 @@ class Article(models.Model):
         null=True,
     )
     entry = models.TextField(null=True)
+    header_image = models.ImageField(upload_to='images/', null=True)
     created_on = models.DateTimeField(auto_created=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -37,3 +45,25 @@ class Article(models.Model):
     class Meta:
         ordering = ['-created_on']
 
+
+class Comment(models.Model):
+    author = models.ForeignKey(
+        Profile,
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.CASCADE,
+    )
+    entry = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['created_on']
+
+    def __str__(self):
+        return 'Comment by {}:\nabout {}\n\n{}\nCreated on: {}\nLast updated:{}'.format(self.author, self.article,
+                                                                             self.entry, self.created_on,
+                                                                             self.updated_on)
