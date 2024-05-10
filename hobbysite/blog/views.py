@@ -44,12 +44,14 @@ class ArticleDetailsView(DetailView):
         context = super().get_context_data(**kwargs)
 
         article = self.get_object()
+        comments_objects = Comment.objects.all()
         context['article'] = article
+        context['comments'] = comments_objects
 
         if self.request.user.is_authenticated:
             context['comment_form'] = CommentForm()
 
-        context['comments'] = article.comment_set.all()
+        # context['comments'] = article.comment_set.all()
 
         return context
 
@@ -62,12 +64,12 @@ class ArticleDetailsView(DetailView):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.author = form.cleaned_data.get('author')
-            comment.article = form.cleaned_data.get('article')
+            comment.article = article
             comment.entry = form.cleaned_data.get('entry')
             comment.created_on = form.cleaned_data.get('created_on')
             comment.updated_on = form.cleaned_data.get('updated_on')
             comment.save()
-            return redirect('blog:article_detail', pk=article.pk)
+            return redirect('blog:article_details', pk=article.pk)
         else:
             form = CommentForm()
 
