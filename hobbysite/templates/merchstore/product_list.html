@@ -11,19 +11,7 @@
 <html>
     <head>
         <title>Merchandise Store</title>
-        <div class = "header">
-            <marquee scrollamount="40">
-                <h1 style="font-family:verdana">Product List</h1>
-            </marquee>
-        </div>
         <style>
-            .header {
-                width: 100%;
-                background-color: black;
-                border-style: dotted;
-                color: white;
-            }   
-
             .body {
                 font-family: "verdana"
             }
@@ -31,26 +19,52 @@
     </head>
     <body>
         <div class="body">
+            <h1>Product Details</h1>
+            <a href="{% url 'merchstore:cart_list' %}">Your Cart</a>
+            <br>
+            <a href="{% url 'merchstore:transaction_list' %}">Your Transactions</a>
+            <hr />
             {% if request.user.is_authenticated %}
-            <h3>{{ request.user.username }} Products</h3>
-            <ul>
-                {% for product in object_list %}
-                    <li><a href="{% url 'merchstore:item_detail' pk=product.pk %}">{{ product.name }}</a></li>
-                {% empty %}
-                    <li>No products found.</li>
-                {% endfor %}
-            {% else %}
-                <h4>Want to see your products? Log-in <a href="{% url 'login' %}">here</a>.</h3>
+                <div>
+                    <h2>My Products</h2>
+                </div>
+                <hr />
+                    {% for product_type in object_list %}
+                        <h1>{{ product_type }}</h1>
+                        <ul>
+                            {% for product in product_type.products.all %}
+                                {% if product.owner == request.user.profile %}
+                                <li>
+                                    <a href="{{ product.get_absolute_url }}">
+                                        {{ product }}
+                                    </a>
+                                    <p> ${{ product.price }}</p>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
             {% endif %}
-            </ul>
-            <h3>All Products</h3>
-            <ul>
-                {% for product in object_list %}
-                    <li><a href="{% url 'merchstore:item_detail' pk=product.pk %}">{{ product.name }}</a></li>
-                {% empty %}
-                    <li>No products found.</li>
-                {% endfor %}
-            </ul>
+            <h2><a href="{% url 'merchstore:item_add' %}">Add a Product</a></h2>
+        <br>
+        <br>
+        <h2>All Products</h2>
+        <hr />
+            {% for product_type in object_list %}
+                <h1>{{ product_type }}</h1>
+                    <ul>
+                        {% for product in product_type.products.all %}
+                            {% if product.owner != request.user.profile %}
+                            <li>
+                                <a href="{{ product.get_absolute_url }}">
+                                    {{ product }}
+                                </a>
+                                <p> ${{ product.price }}</p>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+            {% endfor %}
         </div>
     </body>
 </html>

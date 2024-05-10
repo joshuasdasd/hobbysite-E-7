@@ -23,21 +23,12 @@
     </head>
     <body>
         <div class = "body">
-            <b>Product Type</b>
-            {% for product_type in object_list %}
-                <select name="product_type" id="product_type">
-                    <option value="{{ product_type }}">{{ product_type.name }}</option>
-                </select>
-            {% endfor %}
-            <br>
-            <b>Status</b>
-            <select name="status" id="status">
-                <option value="available">Available</option>
-                <option value="on sale">On sale</option>
-                <option value="out of stock">Out of stock</option>
-            </select>
-            <br>
-            <button type="submit">Create</button>
-        </div>
-    </body>
+            <h3>Product Type</h3>
+            <hr />
+            <a href="{% url 'merchstore:item_list' %}">Back to Products</a>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Create Product" />
+        </form>
 </html>

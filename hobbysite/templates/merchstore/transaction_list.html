@@ -3,19 +3,8 @@
 <html>
     <head>
         <title>Merchandise Store</title>
-        <div class = "header">
-            <marquee scrollamount="40">
-                <h1 style="font-family:verdana">Transaction List</h1>
-            </marquee>
         </div>
         <style>
-            .header {
-                width: 100%;
-                background-color: black;
-                border-style: dotted;
-                color: white;
-            }   
-
             .body {
                 font-family: "verdana"
             }
@@ -23,27 +12,6 @@
     </head>
     <body>
         <div class = "body">
-            {% if request.user.is_authenticated %}
-                <h3>{{ request.user.username }}'s Sales</h3>
-            {% else %}
-                <h3><a href="{% url 'login' %}">Log-in</a> to see your transactions.</h3>
-            {% endif %}
-            {% for transaction in object_list %}
-                <h4>
-                    <ul>
-                        {{ transaction.buyer }} | {{ transaction.created_on }} 
-                        <ul>
-                            <li>{{ transaction.amount}} {{ transaction.product }}</li>
-                            <li>{{ transaction.status }}</li>   
-                        </ul>
-                    </ul>
-                </h4>
-            {% endfor %}
-            <form method="POST">
-                {% csrf_token %}
-                {{ form.as_div }}
-                <button type="submit">Submit</button>
-            </form>
         </div>
     </body>
 </html>

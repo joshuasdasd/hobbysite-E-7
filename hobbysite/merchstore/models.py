@@ -1,6 +1,8 @@
 from django.db import models
 from django.urls import reverse
 
+from user_management.models import Profile
+
 # Create your models here.
 class ProductType(models.Model):
     name = models.CharField(max_length=255)
@@ -8,8 +10,6 @@ class ProductType(models.Model):
 
     class Meta:
         ordering = ['name']
-        verbose_name = 'Product Type'
-        verbose_name_plural = 'Product Types'
 
     def __str__(self):
         return self.name
@@ -24,30 +24,32 @@ class Product(models.Model):
     owner = models.ForeignKey(
         'user_management.Profile',
         on_delete=models.CASCADE,
-        null=True
     )
     description = models.TextField()
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2
     )
-    stock = models.PositiveIntegerField(null=True)
-    status_choices = [
-        ('Out of stock', 'Out of stock'),
-        ('Available', 'Available'),
-        ('On sale', 'On sale')
-    ]
+    stock = models.PositiveIntegerField()
+
+    class ProductStatus(models.TextChoices):
+        AVAILABLE = "Available"
+        ON_SALE = "On Sale"
+        OUT_OF_STOCK = "Out of Stock"
     status = models.CharField(
         max_length=12, 
-        choices=status_choices, 
-        default='Available'
+        choices=ProductStatus.choices, 
+        default=ProductStatus.AVAILABLE
     )
+    
+    class Meta:
+        ordering = ["name"]
 
     def __str__(self):
         return self.name
-    
+
     def get_absolute_url(self):
-        return reverse('merchstore:item_detail', args=[self.pk])
+        return reverse("merchstore:item_detail", args=[self.pk])
 
 class Transaction(models.Model):
     buyer = models.ForeignKey(
@@ -61,20 +63,16 @@ class Transaction(models.Model):
         null=True
     )
     amount = models.PositiveIntegerField()
-    status_choices = [
-        ('On cart', 'On cart'),
-        ('To pay', 'To pay'),
-        ('To ship', 'To ship'),
-        ('To receive', 'To receive'),
-        ('Delivered', 'Delivered')
-    ]
+
+    class TransactionStatus(models.TextChoices):
+        ON_CART = "On Cart"
+        TO_PAY = "To Pay"
+        TO_SHIP = "To Ship"
+        TO_RECEIVE = "To Receive"
+        DELIVERED = "Delivered"
     status = models.CharField(
         max_length=10, 
-        choices=status_choices, 
+        choices=TransactionStatus.choices, 
     )
-    created_on = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        ordering = ['buyer']
-        verbose_name = 'Buyer'
-        verbose_name_plural = 'Buyers'
+    created_on = models.DateTimeField(auto_now_add=True)
