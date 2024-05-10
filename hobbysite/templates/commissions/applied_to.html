@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Commission Create{% endblock %}
+{% block content %}
+    <body>
+        <form method="POST">
+        <p style="font-size: 20px;">You are applying as a</p>
+        <h1 style="color: blue; margin-bottom: 40px;">{{ job_name.role }}</h1>
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <p style="color: gray;">Click the Submit button to proceed.</p>
+            <div class="form-buttons">
+                <a class="cancel-link" href="{% url 'commissions:commission_list' %}">Go back to Commission List</a>
+                <button class="commissions-create-button" type="submit">Submit</button>
+            </div>
+        </form>
+    </body>
+</html>
+{% endblock %}

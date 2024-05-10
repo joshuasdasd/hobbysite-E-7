@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Commission Create{% endblock %}
+{% block content %}
+<body>
+    <form method="POST">
+        <h1>Commission Details</h1>
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <br>
+        <br>
+
+        <div class="commissions-header">
+            <h1>Job Details</h1>
+
+
+        </div>
+
+        <span id="id_form-TOTAL_FORMS">{{ job_formset.management_form }}</span>
+
+        <div id="job-formset">
+            {% for job_form in job_formset %}
+                {{ job_form.as_p }}
+                <hr>
+            {% endfor %}
+        </div>
+        <div class="form-buttons">
+            <a class="cancel-link" href="{% url 'commissions:commission_list' %}">Go back to Commission List</a>
+            <button class="commissions-create-button" type="submit">Submit</button>
+        </div>
+
+    </form>
+
+
+</body>
+{% endblock %}
