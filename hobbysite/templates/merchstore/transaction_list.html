@@ -12,6 +12,31 @@
     </head>
     <body>
         <div class = "body">
+            <h1>Your Transactions</h1>
+            <hr />
+            <a href="{% url 'merchstore:item_list' %}">Back to Products</a>
+            <ul>
+
+            {% for profile in object_list %}
+                {% if profile.transactions.count != 0 %}
+                    <h1>{{ profile.display_name }}</h1>
+                    {% for transaction in profile.transactions.all %}
+                        {% if transaction.product.owner == user.profile %}
+                        <li>
+                            <div>
+                                <h3>{{ transaction.product }}</h3>
+                                <ul>
+                                    <li>Amount: {{ transaction.amount }}</li>
+                                    <li>Status: {{ transaction.status }}</li>
+                                    <li>Created on: {{ transaction.created_on }}</li>
+                                </ul>
+                            </div>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+            </ul>
         </div>
     </body>
 </html>

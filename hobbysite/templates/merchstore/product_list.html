@@ -30,7 +30,7 @@
                                     <a href="{{ product.get_absolute_url }}">
                                         {{ product }}
                                     </a>
-                                    <p> ${{ product.price }}</p>
+                                    <p> PHP{{ product.price }}</p>
                                 </li>
                                 {% endif %}
                             {% endfor %}
@@ -51,7 +51,7 @@
                                 <a href="{{ product.get_absolute_url }}">
                                     {{ product }}
                                 </a>
-                                <p> ${{ product.price }}</p>
+                                <p> PHP{{ product.price }}</p>
                             </li>
                             {% endif %}
                         {% endfor %}

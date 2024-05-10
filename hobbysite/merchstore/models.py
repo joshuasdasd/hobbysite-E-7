@@ -19,7 +19,8 @@ class Product(models.Model):
     product_type = models.ForeignKey(
         ProductType,
         on_delete=models.SET_NULL,
-        null=True
+        null=True,
+        related_name="products"
     )
     owner = models.ForeignKey(
         'user_management.Profile',
@@ -55,7 +56,8 @@ class Transaction(models.Model):
     buyer = models.ForeignKey(
         'user_management.Profile',
         on_delete=models.SET_NULL,
-        null=True
+        null=True,
+        related_name="transactions"
     )
     product = models.ForeignKey(
         Product,
