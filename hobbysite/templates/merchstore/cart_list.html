@@ -5,7 +5,7 @@
         <title>Merchandise Store</title>
         <div class = "header">
             <marquee scrollamount="40">
-                <h1 style="font-family:verdana">Transaction List</h1>
+                <h1 style="font-family:verdana">Product List</h1>
             </marquee>
         </div>
         <style>
@@ -22,18 +22,18 @@
         </style>
     </head>
     <body>
-        <div class = "body">
+        <div class="body">
             {% if request.user.is_authenticated %}
-                <h3>{{ request.user.username }}'s Sales</h3>
+                <h3>{{ request.user.username }}'s Transactions</h3>
             {% else %}
                 <h3><a href="{% url 'login' %}">Log-in</a> to see your transactions.</h3>
             {% endif %}
             {% for transaction in object_list %}
                 <h4>
                     <ul>
-                        {{ transaction.buyer }} | {{ transaction.created_on }} 
+                        {{ transaction.product.owner }} | {{ transaction.product.status }} 
                         <ul>
-                            <li>{{ transaction.amount}} {{ transaction.product }}</li>
+                            <li>{{ transaction.amount }} {{ transaction.product }}</li>
                             <li>{{ transaction.status }}</li>   
                         </ul>
                     </ul>
