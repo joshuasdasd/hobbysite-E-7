@@ -125,11 +125,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [ os.path.join(BASE_DIR,'static') ]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 
-MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
+MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = '/homepage'
 LOGOUT_REDIRECT_URL = '/accounts/login'
@@ -138,4 +138,4 @@ LOGOUT_REDIRECT_URL = '/accounts/login'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+LOGIN_REDIRECT_URL = "homepage"

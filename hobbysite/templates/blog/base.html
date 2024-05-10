@@ -1,15 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <title>{% block title %}Hobby Site{% endblock %}</title>
-        {% block styles %}{% endblock %}
+        <meta charset="UTF-8">
+        <title>HobbySite</title>
+        <style>
+            body {
+                font-family: Courier, sans-serif;
+                background-color: #f7f7f7;
+                color: #333;
+                margin: 0;
+                padding: 0;
+            }
+
+            header {
+                background-color: #6d6875;
+                color: #FFCDB2;
+                padding: 20px;
+                text-align: center;
+            }
+
+            main {
+                max-width: 800px;
+                margin: 20px auto;
+                padding: 20px;
+                background-color: #fff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            footer {
+                background-color: #6d6875;
+                color: #FFCDB2;
+                padding: 10px 20px;
+                text-align: center;
+                position: relative;
+                bottom: 0;
+                width: 100%;
+            }
+            .footer-link {
+                color: #FFCDB2;
+                text-decoration: none;
+            }
+            .footer-link:hover {
+                text-decoration: underline; /* Add underline on hover */
+            }
+            .footer-button {
+
+            }
+            img {
+                display: block;
+                margin: 0 auto;
+                max-width: 100%;
+                height: auto;
+                margin-bottom: 20px;
+            }
+            comment-time {
+                font-size: 10px;
+            }
+            article-entry {
+                color: #FFCDB2;
+            }
+        </style>
     </head>
     <body>
-        <header><h3>HobbySite</h3></header>
-        ───────── ౨ৎ ─────────
-    <main>
+        <header>
+            <h1>Articles</h1>
+        </header>
+
+        <main>
             {% block content %}
             {% endblock %}
+
+            <center>───────── ౨ৎ ─────────</center>
+
         </main>
+
+        <footer>
+            {% if request.user.is_authenticated %}
+            <h3>Hello, <i>{{ request.user.username }}!</i></h3>
+            <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+            {% else %}
+            <p><a href="{% url 'login' %}">Login</a></p>
+            {% endif %}
+        </footer>
     </body>
 </html>

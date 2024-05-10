@@ -1,0 +1,43 @@
+<!-- Will put nav here -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            Get a Hobby!
+        </div>
+        <div class="nav-right">
+            <ul class="nav-list">
+                <li><a href="{% url 'homepage'%}">Home</a>
+                </li>
+                <li><a href="{% url 'commissions:commission_list' %}">Commissions</a></li>
+                <li><a href="{% url 'wiki:article_list' %}">Wiki</a></li>
+                <li><a href="{% url 'blog:articles_list' %}">Blog</a></li>
+                <li><a href="{% url 'merchstore:item_list' %}">Merch Store</a></li>
+            </ul>
+            {% if user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-log">Logout</button>
+                </form>
+            {% else %}
+                <a class='nav-log' href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
+
+    </nav>
+
+    <div class="content-container">
+    {% block content %}
+    {% endblock %}
+    </div>
+</body>
+</html>
