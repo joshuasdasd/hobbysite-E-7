@@ -102,3 +102,6 @@ class ArticleUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('blog:article_details', kwargs={'pk': self.object.pk})
+
+
+# https://stackoverflow.com/questions/10783864/django-1-4-timezone-now-vs-datetime-datetime-now
