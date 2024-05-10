@@ -26,6 +26,7 @@ class ProductCreateView(CreateView):
 class ProductUpdateView(UpdateView):
     model = Product
     template_name = 'merchstore/product_update.html'
+    fields = '__all__'
 
 class TransactionListView(ListView):
     model = Transaction
