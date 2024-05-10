@@ -163,7 +163,7 @@
         <h2>Comments</h2>
         <form method="post" action="{% url 'wiki:article_detail' article.pk %}">
         {% csrf_token %}
-        {{ comment_form.as_p }}
+        <textarea name="entry" placeholder="Add your comment here" rows="4"></textarea>
         <button type="submit">Submit</button>
         </form>
         {% else %}
