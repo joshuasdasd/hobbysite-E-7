@@ -1,11 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import is_valid_path
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from user_management.models import Profile
@@ -92,3 +90,10 @@ class CartListView(ListView):
 class TransactionListView(ListView):
     model = Profile
     template_name = 'merchstore/transaction_list.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        profile_transactions = [[Profile, i.transactions.all()]
+                               for i in Profile.objects.all()]
+        ctx["profile_transactions"] = profile_transactions
+        return ctx
