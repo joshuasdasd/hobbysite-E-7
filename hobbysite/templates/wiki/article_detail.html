@@ -67,7 +67,7 @@
 
         button {
             padding: 10px 20px;
-            background-color: #333;
+            background-color: blue; 
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -111,7 +111,7 @@
 
         /* Style for Edit button */
         .edit-btn {
-            background-color: #333;
+            background-color: blue;
             color: #fff;
             border: none;
             border-radius: 4px;
@@ -183,7 +183,7 @@
                 <ul>
                     {% for comment in comments %}
                         <li class="comment">
-                            <span class="comment-author">{{ comment.author }}</span>:{{ comment.entry }}
+                            <span class="comment-author">{{ article.author.user.username }}</span>:{{ comment.entry }}
                             <span class="comment-time"><br>Created on: {{ comment.created_on }}</span> 
                          </li>
                     {% endfor %}

@@ -63,7 +63,7 @@ class ArticleDetailView(DetailView):
             context['comment_form'] = CommentForm()
 
         # Add comments to the context
-        context['comments'] = article.comment_set.all()
+        context['comments'] = article.comments.all()
 
         return context
 
