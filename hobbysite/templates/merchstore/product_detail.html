@@ -1,52 +1,29 @@
 {% extends 'base.html' %}
-{% block title %}Home{% endblock %}
-
+{% block title %}Product Detail{% endblock %}
 {% load static %}
-
-
 {% block content %}
+<body>
+    <div class = "body">
+        <h1>{{ object }}</h1>
+        <a href="{% url 'merchstore:item_list' %}">Back to Products</a>
+        <hr />
+        <h2>Product Type: {{ object.product_type }} </h2>
+        <h2> Description:</h2>
+        <p>{{ object.description }}</p>
+        <h2>PHP{{ object.price }}</h2>
+        <h2>Stock: {{ object.stock }}</h2>
 
-
-<!DOCTYPE html>
-<html lang="en-US">
-<html>
-    <head>
-        <title>Merchandise Store</title>
-        <style>
-            .body {
-                font-family: "verdana"
-            }
-        </style>
-    </head>
-    <body>
-        <div class = "body">
-            <h1>{{ object }}</h1>
-            <a href="{% url 'merchstore:item_list' %}">Back to Products</a>
-            <hr />
-            <h2>Product Type: {{ object.product_type }} </h2>
-            <h2> Description:</h2>
-            <p>{{ object.description }}</p>
-            <h2>PHP{{ object.price }}</h2>
-            <h2>Stock: {{ object.stock }}</h2>
-    
-            {% if request.user.pk == object.owner.pk %}
-            <a href="{% url 'merchstore:item_edit' object.pk %}">Update Product</a>
-            {% else %}
-            <hr />
-            <form method="POST">
-                {% csrf_token %}
-                {{ form }}
-                <input type="submit" value="Transact"
-                {% if object.stock == 0 %}disabled{% endif %}
-                />
-            </form>
-            {% endif %}    
-        </div>
-    </body>
-<<<<<<< HEAD
-</html>
-
+        {% if request.user.pk == object.owner.pk %}
+        <a href="{% url 'merchstore:item_edit' object.pk %}">Update Product</a>
+        {% else %}
+        <hr />
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Transact">
+            {% if object.stock == 0 %}disabled{% endif %}
+        </form>
+        {% endif %}    
+    </div>
+</body>
 {% endblock %}
-=======
-</html> 
->>>>>>> 68f8265 (Edited forms.py, models.py, and .html files)

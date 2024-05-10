@@ -1,60 +1,24 @@
 {% extends 'base.html' %}
-{% block title %}Home{% endblock %}
-
+{% block title %}Product List{% endblock %}
 {% load static %}
-
-
 {% block content %}
-
-<!DOCTYPE html>
-<html lang="en-US">
-<html>
-    <head>
-        <title>Merchandise Store</title>
-        <style>
-            .body {
-                font-family: "verdana"
-            }
-        </style>
-    </head>
-    <body>
-        <div class="body">
-            <h1>Product Details</h1>
-            <a href="{% url 'merchstore:cart_list' %}">Your Cart</a>
-            <br>
-            <a href="{% url 'merchstore:transaction_list' %}">Your Transactions</a>
-            <hr />
-            {% if request.user.is_authenticated %}
-                <div>
-                    <h2>My Products</h2>
-                </div>
-                <hr />
-                    {% for product_type in object_list %}
-                        <h3>{{ product_type }}</h3>
-                        <ul>
-                            {% for product in product_type.products.all %}
-                                {% if product.owner == request.user.profile %}
-                                <li>
-                                    <a href="{{ product.get_absolute_url }}">
-                                        {{ product }}
-                                    </a>
-                                    <p> PHP{{ product.price }}</p>
-                                </li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    {% endfor %}
-            {% endif %}
-            <h2><a href="{% url 'merchstore:item_add' %}">Add a Product</a></h2>
+<body>
+    <div class="body">
+        <h1>Product Details</h1>
+        <a href="{% url 'merchstore:cart_list' %}">Your Cart</a>
         <br>
-        <br>
-        <h2>All Products</h2>
+        <a href="{% url 'merchstore:transaction_list' %}">Your Transactions</a>
         <hr />
-            {% for product_type in object_list %}
-                <h3>{{ product_type }}</h3>
+        {% if request.user.is_authenticated %}
+            <div>
+                <h2>My Products</h2>
+            </div>
+            <hr />
+                {% for product_type in object_list %}
+                    <h3>{{ product_type }}</h3>
                     <ul>
                         {% for product in product_type.products.all %}
-                            {% if product.owner != request.user.profile %}
+                            {% if product.owner == request.user.profile %}
                             <li>
                                 <a href="{{ product.get_absolute_url }}">
                                     {{ product }}
@@ -64,9 +28,28 @@
                             {% endif %}
                         {% endfor %}
                     </ul>
-            {% endfor %}
-        </div>
-    </body>
-</html>
-
+                {% endfor %}
+        {% endif %}
+        <h2><a href="{% url 'merchstore:item_add' %}">Add a Product</a></h2>
+    <br>
+    <br>
+    <h2>All Products</h2>
+    <hr />
+        {% for product_type in object_list %}
+            <h3>{{ product_type }}</h3>
+                <ul>
+                    {% for product in product_type.products.all %}
+                        {% if product.owner != request.user.profile %}
+                        <li>
+                            <a href="{{ product.get_absolute_url }}">
+                                {{ product }}
+                            </a>
+                            <p> PHP{{ product.price }}</p>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+        {% endfor %}
+    </div>
+</body>
 {% endblock %}

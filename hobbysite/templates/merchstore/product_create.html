@@ -1,22 +1,15 @@
-<!DOCTYPE html>
-<html lang="en-US">
-<html>
-    <head>
-        <title>Merchandise Store</title>
-        <style>
-            .body {
-                font-family: "verdana"
-            }
-        </style>
-    </head>
-    <body>
-        <div class = "body">
-            <h1>Product Creation</h1>
-            <a href="{% url 'merchstore:item_list' %}">Back to Products</a>
-            <hr />
-        <form method="POST">
-            {% csrf_token %}
-            {{ form }}
-            <input type="submit" value="Create" />
-        </form>
-</html>
+{% extends 'base.html' %}
+{% block title %}Product Create{% endblock %}
+{% load static %}
+{% block content %}
+<body>
+    <div class = "body">
+        <h1>Product Creation</h1>
+        <a href="{% url 'merchstore:item_list' %}">Back to Products</a>
+        <hr />
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Create" />
+    </form>
+{% endblock %}
