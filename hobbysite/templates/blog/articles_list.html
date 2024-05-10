@@ -1,10 +1,41 @@
-{% extends 'blog/base.html' %}
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% load static %}
+
 
 {% block content %}
-<h2>List of Articles:</h2>
-<ul>
-    {% for article in object_list %}
-    <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
-    {% endfor %}
-</ul>
+
+<section class="articles-by-user">
+    {% if request.user.is_authenticated %}
+        <h2>List of Articles by <i>{{request.user}}:</i></h2>
+        <ul>
+            {% for article in articles %}
+                {% if article.author.user == request.user %}
+                    <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        --------> <a href="{% url 'blog:article_create' %}"> Create an article</a>
+    {% endif %}
+</section>
+
+<div class="div-other-articles">
+<section class="other-articles">
+    <h2>Other Articles:</h2>
+    <ul>
+        {% for category in categories %}
+            <h3>{{ category.name }}</h3>
+            {% for article in articles %}
+                {% if article.category.name == category.name %}
+                    {% if article.author.user != request.user %}
+                        <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </ul>
+</section>
+</div>
+
 {% endblock %}

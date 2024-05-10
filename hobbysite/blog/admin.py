@@ -15,7 +15,7 @@ class ArticleCategoryAdmin(admin.ModelAdmin):
 
 class ArticleAdmin(admin.ModelAdmin):
     model = Article
-    fields = ['title', 'category', 'created_on', 'entry']
+    fields = ['title', 'author', 'category', 'entry', 'header_image', 'created_on']
 
 
 admin.site.register(ArticleCategory, ArticleCategoryAdmin)

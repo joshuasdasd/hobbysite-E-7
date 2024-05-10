@@ -1,0 +1,24 @@
+
+
+
+{% extends 'base.html' %}
+{% block title %}Submit new commission{% endblock %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}  {# Renders all form fields wrapped in <p> tags #}
+    <div class="form-buttons">
+        
+        <button class="commissions-create-button" type="submit">Submit</button>
+    </div>
+</form>
+
+<p style="margin-top: 40px;">Don't have an account yet? <a href="{% url 'user_management:user_registration' %}">Create one now.</a></p>
+
+{% endblock %}
