@@ -318,3 +318,43 @@ ul .commission :hover {
 .job-information {
     flex: 1;
 }
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  grid-template-rows: repeat(2, 1fr); /* Two rows */
+  gap: 20px; /* Gap between grid items */
+    margin-top: 40px;
+
+}
+
+.grid-item {
+  background-color: blue; /* Background color for grid items */
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.grid-item:hover {
+    background-color: white;
+    box-shadow:inset 0px 0px 0px 2px blue;
+    a {
+        color: blue;
+    }
+}
+
+.grid-item a {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-decoration: none;
+  font-size: 50px;
+  font-weight: bold;
+  padding: 40px;
+}

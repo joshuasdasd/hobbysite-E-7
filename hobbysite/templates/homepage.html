@@ -2,9 +2,35 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+
 <body>
-    <h1>This is the homepage!</h1>
+
+    {% if request.user.is_authenticated %}
+        <h1>Welcome, {{ request.user.profile }}!</h1>
+    {% else %}
+        <h1>Welcome!</h1>
+    {% endif %}
+  <div class="grid-container">
+    <div class="grid-item">
+
+        <a href="{% url 'commissions:commission_list' %}">Commissions</a>
+    </div>
+
+        <div class="grid-item">
+
+        <a href="{% url 'blog:articles_list' %}">Blog</a>
+    </div>
+
+        <div class="grid-item">
+
+        <a href="{% url 'wiki:article_list' %}">Wiki</a>
+    </div>
+
+        <div class="grid-item">
+
+        <a href="{% url 'merchstore:item_list' %}">Merch Store</a>
+    </div>
+  </div>
 </body>
-</html>
 
 {% endblock %}
