@@ -1,0 +1,23 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<body>
+{% if request.user.is_authenticated %}
+    Logout Page
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Logout</button>
+        </form>
+    {% else %}
+
+    Login Page
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <a href="{% url 'password_reset' %}"Forgot password?></a>
+            <button type="submit">Login</button>
+        </form>
+{% endif %}
+</body>
+{% endblock %}

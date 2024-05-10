@@ -2,53 +2,46 @@
 {% load static %}
 
 {% block content %}
-<!--{{ object.header_image }}-->
-<h1><span style="background-color: #E6E6FA">⋆˚࿔  {{ object.title }}  𝜗𝜚˚⋆</span></h1>
-<p>✤ Category: {{ object.category }}</p>
-<p>✤ Created on: {{ object.created_on }}</p>
-<p><i>✤ Entry:</i></p>
-<p>{{ object.entry }}</p>
-<p>* Last updated: {{ object.updated_on }}</p>
 
-{% if request.user.is_authenticated %}
-    #edit/update view
+{% if article.header_image %}
+    <img src="{{ article.header_image.url }}" alt="{{ article.title }}">
 {% endif %}
 
-{% for article in object_list %}
-    {% if object.author == article.author %}
-        <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
+<h1><span style="background-color: #E6E6FA">⋆˚࿔  {{ article.title }}  𝜗𝜚˚⋆</span></h1>
+<p>by {{ article.author.user }}</p>
+<p>✤ Category: {{ article.category }}</p>
+<p>✤ Created on: {{ article.created_on }}</p>
+<p><i>✤ Entry:</i></p>
+<p>{{ article.entry }}</p>
+<p>* Last updated: {{ article.updated_on }}</p>
+
+
+{% if request.user.is_authenticated %}
+    {% if article.author.user == request.user %}
+        <p><a href="{% url 'blog:article_update' pk=article.pk %}">Edit this article</a></p>
+    {% endif %}
+{% endif %}
+
+<p>
+    <h2>Comments</h2>
+    <form method="post" action="{% url 'blog:article_details' article.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p><button type="submit">Submit</button></p>
+    </form>
+</p>
+
+<h3>Other articles by {{article.author.user}}: </h3>
+{% for art in articles %}
+    {% if art.author.user == request.user %}
+        {% if article.title != art.title %}
+            <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ art.title }}</a></li>
+        {% endif %}
     {% endif %}
 {% endfor %}
 
-#comments
-{{ comments }}
 
-{% if request.user.is_authenticated %}
-    #comment form
-    <form action="/" method="post">
-        {% csrf_token %}
-        <label for="author">
-            <span>Author</span>
-            <input type="text" id="author" name="author">
-        </label>
-        <label for="article">
-            <span>Article</span>
-            <input type="text" id="article" name="article">
-        </label>
-        <label for="entry">
-            <span>Entry</span>
-            <input type="text" id="entry" name="entry">
-        </label>
-        <!--    <select id="taskgroup" name="taskgroup">-->
-        <!--        {% for group in taskgroups %}-->
-        <!--        <option value="{{ group.pk }}">{{ group.name }}</option>-->
-        <!--        {% endfor %}-->
-        <!--    </select>-->
-        <input type="submit" value="Submit">
-    </form>
-{% endif %}
-
-<a href="/blog/articles/">< Back</a>
+<p><a href="/blog/articles/">< Back</a></p>
 
 
 {% endblock %}

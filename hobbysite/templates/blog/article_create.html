@@ -1,13 +1,12 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-■ All fields should be available. The Created On and Updated On is automatically set, and the Author is the logged in user. These three fields should not be editable.
-■ Category field should be a dropdown.
-■ This should only be accessible to logged-in users.
-
-
-{% if request.user.is_authenticated %}
-    {% else %}
-
+    {% if request.user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <a href="{% url 'blog:articles_list' %}">Go back to List of Articles</a>
+            <p><button type="submit">Submit</button></p>
+        </form>
     {% endif %}
 {% endblock %}

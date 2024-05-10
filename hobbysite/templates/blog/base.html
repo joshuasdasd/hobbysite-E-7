@@ -6,10 +6,21 @@
     </head>
     <body>
         <header><h3>HobbySite</h3></header>
+        <p><a href="/blog/articles/">Articles</a></p>
         ───────── ౨ৎ ─────────
     <main>
             {% block content %}
             {% endblock %}
-        </main>
+    </main>
+        ───────── ౨ৎ ─────────
+        {% if request.user.is_authenticated %}
+            <h3>Hello, <i>{{ request.user.username }}!</i></h3>
+            <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
     </body>
 </html>

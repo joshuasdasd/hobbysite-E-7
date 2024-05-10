@@ -32,7 +32,7 @@ class Article(models.Model):
         null=True,
     )
     entry = models.TextField(null=True)
-    # header_image = models.ImageField(upload_to='images/', null=True)
+    header_image = models.ImageField(upload_to='images/', null=True)
     created_on = models.DateTimeField(auto_created=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -62,3 +62,8 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['created_on']
+
+    def __str__(self):
+        return 'Comment by {}:\nabout {}\n\n{}\nCreated on: {}\nLast updated:{}'.format(self.author, self.article,
+                                                                             self.entry, self.created_on,
+                                                                             self.updated_on)

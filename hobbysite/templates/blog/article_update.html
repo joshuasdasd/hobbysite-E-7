@@ -1,25 +1,13 @@
-■ It should allow updates of all fields except for the Created
-On and Author field.
-■ This should only be accessible to logged-in users.
+{% extends 'blog/base.html' %}
 
-insert form
-<form action="/blog/articles" method="post">
-    {% csrf_token %}
-    <label for="title">
-        <span>Title</span>
-        <input type="text" id="title" name="title">
-    </label>
-    <label for="category">
-        <span>Category</span>
-        <input type="text" id="category" name="category">
-    </label>
-    <label for="entry">
-        <span>Entry</span>
-        <input type="text" id="entry" name="entry">
-    </label>
-    <label for="updated_on">
-        <span>Updated on:</span>
-        <input type="datetime" id="updated_on" name="updated_on">
-    </label>
-    <input type="submit" value="Submit">
-</form>
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <a href="{% url 'blog:article_details' pk=article.pk %}">Go back to article</a>
+            <p><button type="submit">Submit</button></p>
+        </form>
+    {% endif %}
+{% endblock %}
