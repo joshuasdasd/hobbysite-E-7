@@ -15,7 +15,8 @@
     <div class="commissions-header">
         <h1>Commission Detail</h1>
 
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and user.profile == commission.author %}
+
 
         <div class="commissions-create-button">
 

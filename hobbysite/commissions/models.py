@@ -19,7 +19,7 @@ class Commission(models.Model):
         return f"{self.title} (by {self.author})"
     
     class Meta:
-        ordering = ["-status", "-created_on"]
+        ordering = ["-created_on"]
 
 
 class Job(models.Model):
@@ -37,6 +37,6 @@ class JobApplication(models.Model):
     applied_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ["status", "-applied_on"]
+        ordering = ["-status", "-applied_on"]
 
 

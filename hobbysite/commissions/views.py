@@ -177,7 +177,7 @@ def update_commission_status(sender, instance, created, **kwargs):
     if created:
         # Check if the manpower required for the job is now full
         job = instance.job
-        total_applications = job.job_applications.count()
+        total_applications = job.job_applications.filter(status='Accepted').count()
         if total_applications >= job.manpower_required:
             # Update the status of the associated Commission
             commission = job.commission
@@ -190,7 +190,7 @@ def update_job_status(sender, instance, created, **kwargs):
     if created:
         # Check if the manpower required for the job is now full
         job = instance.job
-        total_applications = job.job_applications.count()
+        total_applications = job.job_applications.filter(status='Accepted').count()
         if total_applications >= job.manpower_required:
             # Update the status of the job to 'Full'
             job.status = 'Full'
