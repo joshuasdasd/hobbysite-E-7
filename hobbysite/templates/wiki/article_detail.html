@@ -161,11 +161,11 @@
 
         {% if request.user.is_authenticated %}
         <h2>Comments</h2>
-            <form method="post" action="{% url 'wiki:article_detail' article.pk %}">
-                {% csrf_token %}
-                <textarea name="comment_entry" placeholder="Add your comment here" rows="4"></textarea>
-                <button type="submit">Submit</button>
-            </form>
+        <form method="post" action="{% url 'wiki:article_detail' article.pk %}">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Submit</button>
+        </form>
         {% else %}
             <p>Please <a href="{% url 'login' %}">log in</a> to add comments.</p>
         {% endif %}
@@ -174,7 +174,10 @@
             {% if comments %}
                 <ul>
                     {% for comment in comments %}
-                        <li class="comment"><span class="comment-author">{{ comment.author }}</span>:{{ comment.entry }}  </li>
+                        <li class="comment">
+                            <span class="comment-author">{{ comment.author }}</span>:{{ comment.entry }}
+                            <span class="comment-time"><br>Created on: {{ comment.created_on }}</span> 
+                         </li>
                     {% endfor %}
                 </ul>
             {% else %}

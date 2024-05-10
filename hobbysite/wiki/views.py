@@ -9,6 +9,7 @@ from .forms import ArticleForm, CommentForm
 from user_management.models import Profile
 from django.urls import reverse_lazy
 from django.db.models import Prefetch
+from django.utils import timezone
 
 
 # Create your views here.
@@ -87,6 +88,7 @@ class ArticleDetailView(DetailView):
         
         # If form is invalid, re-render the context with errors
         context = self.get_context_data(**kwargs)
+        context['current_time'] = timezone.now()
         return self.render_to_response(context)
 
 
