@@ -22,7 +22,7 @@
                 </div>
                 <hr />
                     {% for product_type in object_list %}
-                        <h1>{{ product_type }}</h1>
+                        <h3>{{ product_type }}</h3>
                         <ul>
                             {% for product in product_type.products.all %}
                                 {% if product.owner == request.user.profile %}
@@ -43,7 +43,7 @@
         <h2>All Products</h2>
         <hr />
             {% for product_type in object_list %}
-                <h1>{{ product_type }}</h1>
+                <h3>{{ product_type }}</h3>
                     <ul>
                         {% for product in product_type.products.all %}
                             {% if product.owner != request.user.profile %}
