@@ -23,16 +23,15 @@ class Commission(models.Model):
 
 
 class Job(models.Model):
-    commission = models.ForeignKey(Commission, on_delete=models.CASCADE)
+    commission = models.ForeignKey(Commission, on_delete=models.CASCADE, related_name='jobs')
     role = models.CharField(max_length=255)
     manpower_required = models.IntegerField()
     status = models.CharField(max_length=10, choices = (('Open', 'Open'),('Full', 'Full')), default='Open')
-
     class Meta:
         ordering = ["-status", "-manpower_required", "role"]
 
 class JobApplication(models.Model):
-    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='job_applications')
     applicant = models.ForeignKey(Profile, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, choices = (('Pending', 'Pending'),('Accepted', 'Accepted'), ('Rejected', 'Rejected')), default='Pending')
     applied_on = models.DateTimeField(auto_now_add=True)

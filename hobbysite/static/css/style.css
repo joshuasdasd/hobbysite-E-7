@@ -107,7 +107,9 @@ h3 {
 
 .content-container {
     max-width: 1000px;
-    margin: 50px auto auto auto;
+    margin: auto;
+    padding: 50px;
+    overflow-y: scroll;
 }
 
 
@@ -137,8 +139,9 @@ form label {
 
 input, textarea, select {
     padding: 15px;
-    width: 100%;;
+    width: auto;
 }
+
 
 .form-buttons {
     display: flex;
@@ -191,6 +194,16 @@ ul .commission:hover {
 
 }
 
+.disabled {
+    height: auto;
+    padding: 15px;
+    background: lightgray;
+    border-radius: 4px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 .commissions-create-button:hover {
     box-shadow:inset 0px 0px 0px 2px blue;
     background-color: white;
@@ -271,7 +284,6 @@ ul .commission :hover {
 
 .no-comment {
     list-style: none;
-    font-style: italic;
 }
 
 .comment-stat {
@@ -300,6 +312,8 @@ ul .commission :hover {
 .commission-job {
     display: flex;
     flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
 }
 .job-information {
     flex: 1;

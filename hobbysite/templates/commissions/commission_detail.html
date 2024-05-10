@@ -10,6 +10,7 @@
 {% block content %}
 
 <body>
+    
     <!-- commission_detail.html -->
     <div class="commissions-header">
         <h1>Commission Detail</h1>
@@ -24,12 +25,18 @@
         {% endif %}
     </div>
     <div class="commission">
-        <a class="commission-name" href="{% url 'commissions:commission_detail' commission.pk %}">{{ commission.title }}</a>
+        <h3>{{ commission.title }}</h3>
     
         <p>Submitted by <strong>{{commission.author}}</strong></p><br>
+
+
         <div class="commission-details">
             <p><span class="commission-label">Description: </span>{{ commission.description }}</p>
         </div>
+
+        <br>
+        <p>Total Manpower Required: {{ mpr }}</p>
+        <p>Available slots: {{remaining_manpower}}</p>
     
         <div class="commission-stats">
             <p><span class="commission-label stat">Updated On: </span>{{ commission.updated_on }}</p>
@@ -40,28 +47,39 @@
 
     <h2>Available Jobs</h2>
 
+          
     <div class="commission-jobs">
 
-        {% for job in jobs %}
-            {% if job.commission.pk == commission.pk %}
+        {% if not jobs %}
+            <p>No jobs available for this commission.</p>
+        {% else %}
+            {% for job in jobs %}
+                <div class="commission-job">
+                    <div class="job-information">
+                        <h3>{{job.role}}</h3>
+                        <p>Manpower Required: {{job.manpower_required}} persons</p>
+                        <p>Status: {{job.status}}</p>
+                    </div>
 
-            <div class="commission-job">
-                <div class="job-information">
-                    <h3>{{job.role}}</h3>
-                    <p>Manpower Required: {{job.manpower_required}} persons</p>
-                    <p>Status: {{job.status}}</p>
+                    {% if user.is_authenticated %}
+
+                        {% if job.status != 'Full' %}
+                            <div class="commissions-create-button">
+                                <a href="{% url 'commissions:commission_apply' pk=job.pk %}">Apply</a>
+                            </div>
+ 
+                        {% else %}
+
+                            <p style="color: gray">No available slots</p>
+
+                        {% endif %}
+                    {% endif %}
+
                 </div>
+                <hr><br>
+            {% endfor %}
+        {% endif %}
 
-                {% if user.is_authenticated %}
-                <div class="commissions-create-button">
-                    <a href="{% url 'commissions:commission_update' pk=commission.pk %}">Apply</a>
-                </div>
-                {% endif %}
-
-            </div>
-            <hr>
-            {% endif %}
-        {% endfor %}
     </div>
 </body>
 {% endblock %}

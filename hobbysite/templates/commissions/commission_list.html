@@ -4,6 +4,7 @@
 
 
 <body>
+
     
     <!-- Header with Button -->
     <div class="commissions-header">
@@ -16,56 +17,66 @@
 
 {% if user.is_authenticated %}
     <h2>Your applications</h2>
-    <ul>
-        {% for application in applications %}
-            {% if application.applicant != request.user.profile %}
-            <a class="commission-link" href="{% url 'commissions:commission_detail' application.job.commission.pk %}">
 
-                <li class="commission">
-                    <div class="commission-info">
-                        <h3 class="commission-name">{{ application.job.commission.title }}</h3>
-                        <div class="commission-author">Submitted by <strong>{{ application.job.commission.author }}</strong></div>
-                        <div class="commission-author">Status: <strong>{{ commission.status }}</strong></div>
 
-                        <div class="commission-stats">
-                            <p><span class="commission-label stat">Updated On: </span>{{ application.job.commission.updated_on }}</p>
-                            <p><span class="commission-label stat">Created On: </span>{{ application.job.commission.created_on }}</p>
-                        </div>
-                    </div>
-                </li>
+    <!-- Debug -->
+    {% if applications %}
+        <ul>
+            {% for application in applications %}
+                <a class="commission-link" href="{% url 'commissions:commission_detail' application.job.commission.pk %}">
 
-            </a>
-            {% endif %}
-        {% endfor %}
-    </ul>
-    
-    <!-- Submitted by User -->
-    <h2>Your submissions</h2>
-    <ul>
-        {% for commission in commissions %}
-            {% if commission.author == request.user.profile %}
-                <a class="commission-link" href="{% url 'commissions:commission_detail' commission.pk %}">
                     <li class="commission">
                         <div class="commission-info">
-                            <h3 class="commission-name">{{ commission.title }}</h3>
-                            <div class="commission-author">Author: <strong>{{ commission.author }}</strong></div>
-                            <div class="commission-author">Status: <strong>{{ commission.status }}</strong></div>
+                            <h3 class="commission-name">{{ application.job.commission.title }}</h3>
+                            <div class="commission-author">Submitted by <strong>{{ application.job.commission.author }}</strong></div>
+                            <div class="commission-author">Status: <strong>{{ application.job.commission.status }}</strong></div>
 
                             <div class="commission-stats">
-
-                                <p><span class="commission-label stat">Updated On: </span>{{ commission.updated_on }}</p>
-                                <p><span class="commission-label stat">Created On: </span>{{ commission.created_on }}</p>
+                                <p><span class="commission-label stat">Updated On: </span>{{ application.job.commission.updated_on }}</p>
+                                <p><span class="commission-label stat">Created On: </span>{{ application.job.commission.created_on }}</p>
                             </div>
                         </div>
                     </li>
-                </a>
-            {% endif %}
-        {% endfor %}
-    </ul>
 
+                </a>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have not applied to work on any commissions.</p>
+    {% endif %}
+    
+
+    <!-- Submitted by User -->
+
+    <h2>Your submissions</h2>
+    {% if not user_commissions %}
+        <p>You have not submitted any commissions.</p>
+    {% else %}
+        <ul>
+            {% for commission in user_commissions %}
+                    <a class="commission-link" href="{% url 'commissions:commission_detail' commission.pk %}">
+                        <li class="commission">
+                            <div class="commission-info">
+                                <h3 class="commission-name">{{ commission.title }}</h3>
+                                <div class="commission-author">Author: <strong>{{ commission.author }}</strong></div>
+                                <div class="commission-author">Status: <strong>{{ commission.status }}</strong></div>
+
+                                <div class="commission-stats">
+
+                                    <p><span class="commission-label stat">Updated On: </span>{{ commission.updated_on }}</p>
+                                    <p><span class="commission-label stat">Created On: </span>{{ commission.created_on }}</p>
+                                </div>
+                            </div>
+                        </li>
+                    </a>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endif %}
 
-<hr>
+{% if user.is_authenticated %}
+    <hr>
+{% endif %}
 
     <!-- All commissions -->
 <h2>All Commissions</h2>
@@ -88,7 +99,7 @@
                 </li>
             </a>
         {% empty %}
-            <li class="no-comment">No commissions available.</li>
+            <li class="no-comment">No commissions to show.</li>
         {% endfor %}
     </ul>
 </body>
