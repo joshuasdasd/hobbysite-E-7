@@ -1,9 +1,6 @@
 from django.db import models
-from django.utils import timezone
 from django.urls import reverse
 from user_management.models import Profile
-
-# Create your models here.
 
 class ArticleCategory(models.Model):
     name = models.CharField(max_length=255)
@@ -19,14 +16,24 @@ class ArticleCategory(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
-    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null = True, blank = True)
+    author = models.ForeignKey(
+        Profile, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank = True, 
+        related_name='articles'
+        )
     category = models.ForeignKey(
-        ArticleCategory,
-        on_delete=models.SET_NULL,
-        null=True,
-    )
+        ArticleCategory, 
+        on_delete=models.SET_NULL, 
+        null=True
+        )
     entry = models.TextField()
-    header_images = models.ImageField(upload_to='images/', null = True, blank = True)
+    header_images = models.ImageField(
+        upload_to='images/', 
+        null=True, 
+        blank=True
+        )
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -40,8 +47,17 @@ class Article(models.Model):
         return reverse('wiki:article_detail', args=[self.pk])
     
 class Comment(models.Model):
-    author = models.ForeignKey(Profile, on_delete=models.SET_NULL, null = True)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    # Added related_name='comments' to resolve reverse relationship conflict
+    author = models.ForeignKey(
+        Profile, on_delete=models.SET_NULL, 
+        null=True, 
+        related_name='comments'
+        )
+    article = models.ForeignKey(
+        Article, 
+        on_delete=models.CASCADE, 
+        related_name='comments'
+        )
     entry = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
