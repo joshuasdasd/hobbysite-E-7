@@ -23,27 +23,27 @@
     </head>
     <body>
         <div class="body">
-            {% if request.user.is_authenticated %}
-                <h3>{{ request.user.username }}'s Transactions</h3>
-            {% else %}
-                <h3><a href="{% url 'login' %}">Log-in</a> to see your transactions.</h3>
-            {% endif %}
-            {% for transaction in object_list %}
-                <h4>
-                    <ul>
-                        {{ transaction.product.owner }} | {{ transaction.product.status }} 
-                        <ul>
-                            <li>{{ transaction.amount }} {{ transaction.product }}</li>
-                            <li>{{ transaction.status }}</li>   
-                        </ul>
-                    </ul>
-                </h4>
-            {% endfor %}
-            <form method="POST">
-                {% csrf_token %}
-                {{ form.as_div }}
-                <button type="submit">Submit</button>
-            </form>
+            <ul>
+                {% for profile in object_list %}
+                    {% if profile.transactions.count != 0 %}
+                        <h1>{{ profile.display_name }}</h1>
+                        {% for transaction in profile.transactions.all %}
+                            {% if transaction.buyer == user.profile %}
+                            <li>
+                                <div>
+                                    <h3>{{ transaction.product }}</h3>
+                                    <ul>
+                                        <li>Amount: {{ transaction.amount }}</li>
+                                        <li>Status: {{ transaction.status }}</li>
+                                        <li>Created on: {{ transaction.createdOn }}</li>
+                                    </ul>
+                                </div>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
         </div>
     </body>
 </html>
