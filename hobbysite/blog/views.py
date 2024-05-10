@@ -54,16 +54,22 @@ class ArticleDetailsView(DetailView):
         return context
 
     def post(self, request, **kwargs):
+
+        article = self.get_object()
+        comments = article.comment_set.all()
+
         form = CommentForm(request.POST)
         if form.is_valid():
-            comment = form.save()
+            comment = form.save(commit=False)
             comment.author = form.cleaned_data.get('author')
             comment.article = form.cleaned_data.get('article')
             comment.entry = form.cleaned_data.get('entry')
             comment.created_on = form.cleaned_data.get('created_on')
             comment.updated_on = form.cleaned_data.get('updated_on')
             comment.save()
-            return redirect('blog:article_details', kwargs={'pk': self.object.pk})
+            return redirect('blog:article_detail', pk=article.pk)
+        else:
+            form = CommentForm()
 
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context)

@@ -23,12 +23,14 @@
 {% endif %}
 
 <p>
+{% if request.user.is_authenticated %}
     <h2>Comments</h2>
     <form method="post" action="{% url 'blog:article_details' article.pk %}">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ comment_form.as_p}}
         <p><button type="submit">Submit</button></p>
     </form>
+{% endif %}
 </p>
 
 <h3>Other articles by {{article.author.user}}: </h3>
