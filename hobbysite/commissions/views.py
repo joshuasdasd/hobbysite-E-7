@@ -74,6 +74,11 @@ class CommissionDetailView(DetailView):
         # Subtract accepted manpower from the total initial required manpower to get the remaining manpower
         remaining_manpower = mpr - accepted_manpower
 
+
+
+
+
+
         # Add the models to the context
         context['commissions'] = model1_objects
         context['jobs'] = model2_objects
@@ -190,10 +195,12 @@ def update_commission_status(sender, instance, created, **kwargs):
 @receiver(post_save, sender=JobApplication)
 def update_job_status(sender, instance, created, **kwargs):
     if created:
-        # Check if the manpower required for the job is now full
         job = instance.job
-        total_applications = job.job_applications.filter(status='Accepted').count()
-        if total_applications >= job.manpower_required:
+        accepted_apps = job.job_applications.filter(status='Accepted').count()
+        job.slots = job.manpower_required - accepted_apps
+        job.save()
+
+        if accepted_apps >= job.manpower_required:
             # Update the status of the job to 'Full'
             job.status = 'Full'
             job.save()

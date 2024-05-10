@@ -15,6 +15,7 @@ class JobForm(forms.ModelForm):
     class Meta:
         model = Job
         fields = "__all__"
+        exclude = ['slots']
 
 class JobApplicationForm(forms.ModelForm):
     class Meta:

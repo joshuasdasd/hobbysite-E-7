@@ -26,6 +26,7 @@ class Job(models.Model):
     commission = models.ForeignKey(Commission, on_delete=models.CASCADE, related_name='jobs')
     role = models.CharField(max_length=255)
     manpower_required = models.IntegerField()
+    slots = models.IntegerField(null=True)
     status = models.CharField(max_length=10, choices = (('Open', 'Open'),('Full', 'Full')), default='Open')
     class Meta:
         ordering = ["-status", "-manpower_required", "role"]
