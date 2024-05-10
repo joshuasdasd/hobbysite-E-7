@@ -25,13 +25,14 @@ class Product(models.Model):
     owner = models.ForeignKey(
         'user_management.Profile',
         on_delete=models.CASCADE,
+        default=None
     )
     description = models.TextField()
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2
     )
-    stock = models.PositiveIntegerField()
+    stock = models.PositiveIntegerField(default=None)
 
     class ProductStatus(models.TextChoices):
         AVAILABLE = "Available"

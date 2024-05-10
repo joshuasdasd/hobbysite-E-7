@@ -3,19 +3,7 @@
 <html>
     <head>
         <title>Merchandise Store</title>
-        <div class = "header">
-            <marquee scrollamount="40">
-                <h1 style="font-family:verdana">Product Creation</h1>
-            </marquee>
-        </div>
         <style>
-            .header {
-                width: 100%;
-                background-color: black;
-                border-style: dotted;
-                color: white;
-            }   
-
             .body {
                 font-family: "verdana"
             }
@@ -23,9 +11,9 @@
     </head>
     <body>
         <div class = "body">
-            <h3>Product Type</h3>
-            <hr />
+            <h1>Product Creation</h1>
             <a href="{% url 'merchstore:item_list' %}">Back to Products</a>
+            <hr />
         <form method="POST">
             {% csrf_token %}
             {{ form }}

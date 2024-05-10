@@ -3,19 +3,7 @@
 <html>
     <head>
         <title>Merchandise Store</title>
-        <div class = "header">
-            <marquee scrollamount="40">
-                <h1 style="font-family:verdana">Product Update</h1>
-            </marquee>
-        </div>
         <style>
-            .header {
-                width: 100%;
-                background-color: black;
-                border-style: dotted;
-                color: white;
-            }   
-
             .body {
                 font-family: "verdana"
             }
@@ -23,13 +11,14 @@
     </head>
     <body>
         <div class="body">
-            <h1>Update Profile</h1>
+            <h1>Update Product</h1>
+            <a href="{% url 'merchstore:item_detail' object.pk %}">Back to Product</a>
             <hr />
-        <a href="{% url 'merchstore:item_detail' object.pk %}">Back to Product</a>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form }}
-            <input type="submit" value="Update" />
-        </form>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Update" />
+            </form>
+        </div>
     </body>
 </html>
