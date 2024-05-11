@@ -3,7 +3,7 @@
 
 {% block entry %}
     {% if request.user.is_authenticated %}
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <a href="{% url 'blog:article_details' pk=article.pk %}">Go back to article</a>
