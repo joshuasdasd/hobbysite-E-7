@@ -82,7 +82,7 @@ class ArticleDetailsView(DetailView):
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):
     model = Article
-    fields = ['title', 'category', 'entry', 'header_image']
+    fields = ['title', 'category', 'entry', 'header_image',]
     template_name = 'blog/article_create.html'
     success_url = reverse_lazy('blog:articles_list')
 

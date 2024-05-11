@@ -1,41 +1,40 @@
-{% extends 'base.html' %}
+{% extends 'blog/base.html' %}
 {% block title %}Home{% endblock %}
 
 {% load static %}
 
 
-{% block content %}
+{% block entry %}
 
 <section class="articles-by-user">
     {% if request.user.is_authenticated %}
-        <h2>List of Articles by <i>{{request.user}}:</i></h2>
-        <ul>
-            {% for article in articles %}
-                {% if article.author.user == request.user %}
-                    <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
-                {% endif %}
-            {% endfor %}
-        </ul>
-        --------> <a href="{% url 'blog:article_create' %}"> Create an article</a>
+    <h2>List of Articles by <i>{{request.user}}:</i></h2>
+    <ul>
+        {% for article in articles %}
+        {% if article.author.user == request.user %}
+        <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+    <section class="create-article"> --------> <a href="{% url 'blog:article_create' %}"> Create an article</a></section>
     {% endif %}
 </section>
 
-<div class="div-other-articles">
 <section class="other-articles">
     <h2>Other Articles:</h2>
     <ul>
         {% for category in categories %}
-            <h3>{{ category.name }}</h3>
-            {% for article in articles %}
-                {% if article.category.name == category.name %}
-                    {% if article.author.user != request.user %}
-                        <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
+            {% if articles %}
+                {% for article in articles %}
+                    {% if article.category.name == category.name %}
+                        {% if article.author.user != request.user %}
+                            <h3>{{ category.name }}</h3>
+                            <li><a href="{% url 'blog:article_details' pk=article.pk %}">{{ article.title }}</a></li>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
         {% endfor %}
     </ul>
 </section>
-</div>
-
 {% endblock %}

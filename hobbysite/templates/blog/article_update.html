@@ -1,7 +1,7 @@
 {% extends 'blog/base.html' %}
 
 
-{% block content %}
+{% block entry %}
     {% if request.user.is_authenticated %}
         <form method="post">
             {% csrf_token %}
