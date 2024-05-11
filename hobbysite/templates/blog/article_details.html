@@ -1,20 +1,21 @@
 {% extends 'blog/base.html' %}
 {% load static %}
 
-{% block content %}
+{% block entry %}
 
 {% if article.header_image %}
     <img src="{{ article.header_image.url }}" alt="{{ article.title }}">
 {% endif %}
 
-<h1><span style="background-color: #E6E6FA">⋆˚࿔  {{ article.title }}  𝜗𝜚˚⋆</span></h1>
-<p>by {{ article.author.user }}</p>
+<section class="article-details">
+<span style="background-color: #E6E6FA"><h1>⋆˚࿔  {{ article.title }}  𝜗𝜚˚⋆</h1></span>
+    <p><b><i>by {{ article.author.user }}</i></b></p><br>
 <p>✤ Category: {{ article.category }}</p>
 <p>✤ Created on: {{ article.created_on }}</p>
-<p><i>✤ Entry:</i></p>
-<span class="article-entry"><p>{{ article.entry }}</p></span>
-<p>* Last updated: {{ article.updated_on }}</p>
-
+<p><i>✤ Entry:</i></p><br>
+<span class="article-entry"><p>{{ article.entry }}</p></span><br>
+<p>* Last updated: {{ article.updated_on }}</p><br>
+</section>
 
 {% if request.user.is_authenticated %}
     {% if article.author.user == request.user %}
@@ -36,7 +37,7 @@
 {% endif %}
 </p>
 </section>
-
+<br>
 <section class="existing-comments">
     <p>
     {% if comments %}
@@ -44,7 +45,7 @@
         {% for comment in comments %}
         {% if comment.article == article %}
             <li>
-                <span class="comment-author"><i>{{ comment.author }}</i></span>:
+                <span class="comment-author"><i>{{ comment.author.user }}</i></span>:
                 <span class="comment-entry"><b>{{ comment.entry }}</b></span>
                 <span class="comment-time"><br>Created on: {{ comment.created_on }}</span>
             </li>
@@ -56,8 +57,7 @@
     {% endif %}
 </p>
 </section>
-
-
+<br>
 <section class="other-articles-by">
 <h3>Other articles by {{article.author.user}}: </h3>
 {% for art in articles %}
@@ -67,7 +67,7 @@
         {% endif %}
     {% endif %}
 {% endfor %}
-</section>
+</section><br>
 
 <p><a href="/blog/articles/">< Back</a></p>
 
