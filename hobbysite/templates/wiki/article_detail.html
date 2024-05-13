@@ -183,7 +183,7 @@
                 <ul>
                     {% for comment in comments %}
                         <li class="comment">
-                            <span class="comment-author">{{ article.author.user.username }}</span>:{{ comment.entry }}
+                            <span class="comment-author">{{ comment.author.user.username }}</span>:{{ comment.entry }}
                             <span class="comment-time"><br>Created on: {{ comment.created_on }}</span> 
                          </li>
                     {% endfor %}
