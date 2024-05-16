@@ -19,7 +19,7 @@ class Commission(models.Model):
         return f"{self.title} (by {self.author})"
     
     class Meta:
-        ordering = ["-created_on"]
+        ordering = ["created_on"]
 
 
 class Job(models.Model):
